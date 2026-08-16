@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TEKA TEKI | MARLITHPROJECT</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .website {
+            width: 92%;
+            max-width: 500px;
+            min-height: 650px;
+            background: #111;
+            border: 1px solid #444;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(255,255,255,0.08);
+            position: relative;
+        }
+
+        .header {
+            padding: 25px 25px 15px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+            letter-spacing: 5px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+            color: #aaa;
+            font-size: 13px;
+            letter-spacing: 2px;
+        }
+
+        .welcome {
+            text-align: center;
+            padding: 70px 25px;
+        }
+
+        .welcome h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .welcome p {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        button {
+            border: none;
+            background: white;
+            color: black;
+            padding: 13px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: #ddd;
+        }
+
+        .game {
+            display: none;
+            padding: 35px 25px;
+            text-align: center;
+        }
+
+        .nomor {
+            display: inline-block;
+            padding: 7px 14px;
+            border: 1px solid #555;
+            border-radius: 20px;
+            color: #aaa;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .soal {
+            background: #1b1b1b;
+            border: 1px solid #333;
+            padding: 25px 18px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            font-size: 20px;
+            line-height: 1.5;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            background: #080808;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 10px;
+            outline: none;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        input:focus {
+            border-color: white;
+        }
+
+        #hasil {
+            min-height: 25px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .skor {
+            margin-top: 20px;
+            color: #aaa;
+        }
+
+        /* TOMBOL MENYERAH */
+        .menyerah {
+            margin-top: 12px;
+            background: #222;
+            color: white;
+            border: 1px solid #555;
+            font-size: 13px;
+            padding: 9px 18px;
+        }
+
+        .menyerah:hover {
+            background: #333;
+        }
+
+        /* EMOJI TAI */
+        #tai {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            font-size: 130px;
+            z-index: 999;
+            display: none;
+            animation: muncul 0.4s ease;
+        }
+
+        @keyframes muncul {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding: 18px;
+            border-top: 1px solid #333;
+            color: #777;
+            font-size: 12px;
+            letter-spacing: 3px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="website">
+
+    <div class="header">
+        <h1>TEKA TEKI</h1>
+        <p>MARLITHPROJECT</p>
+    </div>
+
+    <div class="welcome" id="welcome">
+
+        <h2>Selamat Datang</h2>
+
+        <p>
+            Uji logika dan kemampuan berpikirmu
+            dengan berbagai teka-teki.
+        </p>
+
+        <button onclick="mulaiGame()">
+            MULAI
+        </button>
+
+    </div>
+
+    <div class="game" id="game">
+
+        <div class="nomor" id="nomorSoal">
+            SOAL 1
+        </div>
+
+        <div class="soal" id="soal">
+            Aku punya banyak gigi,
+            tapi tidak bisa menggigit.
+            Apakah aku?
+        </div>
+
+        <input
+            type="text"
+            id="jawaban"
+            placeholder="Tulis jawabanmu..."
+        >
+
+        <br>
+
+        <button onclick="cekJawaban()">
+            JAWAB
+        </button>
+
+        <div id="hasil"></div>
+
+        <div class="skor">
+            Skor: <span id="skor">0</span>
+        </div>
+
+        <br>
+
+        <button class="menyerah" onclick="menyerah()">
+            Menyerah kah?
+        </button>
+
+    </div>
+
+    <div class="footer">
+        MARLITHPROJECT
+    </div>
+
+</div>
+
+
+<!-- EMOJI TAI -->
+<div id="tai">💩</div>
+
+
+<script>
+
+    const soal = [
+
+        {
+            pertanyaan:
+            "Aku punya banyak gigi, tapi tidak bisa menggigit. Apakah aku?",
+            jawaban: "sisir"
+        },
+
+        {
+            pertanyaan:
+            "Semakin diisi, semakin ringan. Apakah itu?",
+            jawaban: "balon"
+        },
+
+        {
+            pertanyaan:
+            "Aku punya wajah dan dua tangan, tapi tidak punya kaki. Apakah aku?",
+            jawaban: "jam"
+        },
+
+        {
+            pertanyaan:
+            "Aku selalu datang, tetapi tidak pernah tiba. Apakah aku?",
+            jawaban: "besok"
+        },
+
+        {
+            pertanyaan:
+            "Apa yang bisa berjalan tanpa kaki?",
+            jawaban: "air"
+        }
+
+    ];
+
+
+    let nomor = 0;
+    let skor = 0;
+
+
+    function mulaiGame() {
+
+        document.getElementById("welcome").style.display = "none";
+
+        document.getElementById("game").style.display = "block";
+
+        tampilkanSoal();
+    }
+
+
+    function tampilkanSoal() {
+
+        document.getElementById("nomorSoal").innerText =
+            "SOAL " + (nomor + 1);
+
+        document.getElementById("soal").innerText =
+            soal[nomor].pertanyaan;
+
+        document.getElementById("jawaban").value = "";
+
+        document.getElementById("hasil").innerText = "";
+    }
+
+
+    function cekJawaban() {
+
+        let jawaban =
+            document.getElementById("jawaban")
+            .value
+            .toLowerCase()
+            .trim();
+
+        let hasil =
+            document.getElementById("hasil");
+
+
+        if (jawaban === "") {
+
+            hasil.innerText =
+                "⚠️ Masukkan jawaban terlebih dahulu.";
+
+            return;
+        }
+
+
+        if (jawaban === soal[nomor].jawaban) {
+
+            skor += 10;
+
+            document.getElementById("skor").innerText =
+                skor;
+
+            hasil.innerText =
+                "BENAR! 🎉";
+
+            nomor++;
+
+            if (nomor < soal.length) {
+
+                setTimeout(tampilkanSoal, 1000);
+
+            } else {
+
+                setTimeout(() => {
+
+                    document.getElementById("soal").innerText =
+                        "🎉 SELAMAT! Semua soal selesai!";
+
+                    document.getElementById("nomorSoal").innerText =
+                        "SELESAI";
+
+                    document.getElementById("jawaban").style.display =
+                        "none";
+
+                    hasil.innerText =
+                        "Skor akhir: " + skor;
+
+                }, 1000);
+            }
+
+        } else {
+
+            hasil.innerText =
+                "SALAH! Coba pikir lagi 🤔";
+        }
+    }
+
+
+    function menyerah() {
+
+        let tai = document.getElementById("tai");
+
+        tai.style.display = "block";
+
+        setTimeout(() => {
+
+            tai.style.display = "none";
+
+        }, 2500);
+    }
+
+</script>
+
+</body>
+</html>
