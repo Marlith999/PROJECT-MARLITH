@@ -1,408 +1,766 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEKA TEKI | MARLITHPROJECT</title>
 
-    <title>TEKA TEKI | MARLITHPROJECT</title>
+<style>
+*{box-sizing:border-box}
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Arial,sans-serif;
+    background:#000;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-            background: #000;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+/* serpihan putih */
+body::before{
+    content:"";
+    position:fixed;
+    inset:-100%;
+    background-image:
+        radial-gradient(circle,rgba(255,255,255,.35) 1px,transparent 2px),
+        radial-gradient(circle,rgba(255,255,255,.18) 1px,transparent 2px);
+    background-size:70px 70px,120px 120px;
+    animation:debu 25s linear infinite;
+    pointer-events:none;
+}
 
-        .website {
-            width: 92%;
-            max-width: 500px;
-            min-height: 650px;
-            background: #111;
-            border: 1px solid #444;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 0 40px rgba(255,255,255,0.08);
-            position: relative;
-        }
+@keyframes debu{
+    from{transform:translate(0,0)}
+    to{transform:translate(120px,180px)}
+}
 
-        .header {
-            padding: 25px 25px 15px;
-            text-align: center;
-            border-bottom: 1px solid #333;
-        }
+.website{
+    width:92%;
+    max-width:520px;
+    min-height:680px;
+    background:rgba(10,10,10,.95);
+    border:1px solid #333;
+    border-radius:25px;
+    box-shadow:0 0 50px rgba(255,255,255,.08);
+    overflow:hidden;
+    position:relative;
+    z-index:2;
+}
 
-        .header h1 {
-            margin: 0;
-            font-size: 30px;
-            letter-spacing: 5px;
-        }
+.header{
+    padding:25px;
+    text-align:center;
+    border-bottom:1px solid #292929;
+}
 
-        .header p {
-            margin: 8px 0 0;
-            color: #aaa;
-            font-size: 13px;
-            letter-spacing: 2px;
-        }
+.header h1{
+    margin:0;
+    font-size:30px;
+    letter-spacing:6px;
+}
 
-        .welcome {
-            text-align: center;
-            padding: 70px 25px;
-        }
+.header p{
+    margin:8px 0 0;
+    color:#777;
+    font-size:12px;
+    letter-spacing:4px;
+}
 
-        .welcome h2 {
-            font-size: 32px;
-            margin-bottom: 15px;
-        }
+.welcome{
+    text-align:center;
+    padding:75px 25px;
+}
 
-        .welcome p {
-            color: #aaa;
-            line-height: 1.6;
-        }
+.welcome h2{
+    font-size:32px;
+    margin-bottom:15px;
+}
 
-        button {
-            border: none;
-            background: white;
-            color: black;
-            padding: 13px 30px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+.welcome p{
+    color:#888;
+    line-height:1.6;
+}
 
-        button:hover {
-            transform: scale(1.05);
-            background: #ddd;
-        }
+button{
+    border:none;
+    background:#fff;
+    color:#000;
+    padding:13px 30px;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
 
-        .game {
-            display: none;
-            padding: 35px 25px;
-            text-align: center;
-        }
+button:hover{
+    transform:scale(1.04);
+    background:#ddd;
+}
 
-        .nomor {
-            display: inline-block;
-            padding: 7px 14px;
-            border: 1px solid #555;
-            border-radius: 20px;
-            color: #aaa;
-            font-size: 13px;
-            margin-bottom: 20px;
-        }
+button:active{
+    transform:scale(.96);
+}
 
-        .soal {
-            background: #1b1b1b;
-            border: 1px solid #333;
-            padding: 25px 18px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            font-size: 20px;
-            line-height: 1.5;
-        }
+.game{
+    display:none;
+    padding:32px 25px 80px;
+    text-align:center;
+}
 
-        input {
-            width: 100%;
-            padding: 14px;
-            background: #080808;
-            color: white;
-            border: 1px solid #444;
-            border-radius: 10px;
-            outline: none;
-            font-size: 16px;
-            text-align: center;
-            margin-bottom: 12px;
-        }
+.nomor{
+    display:inline-block;
+    padding:7px 15px;
+    border:1px solid #444;
+    border-radius:20px;
+    color:#888;
+    font-size:12px;
+    margin-bottom:18px;
+}
 
-        input:focus {
-            border-color: white;
-        }
+.soal{
+    background:#151515;
+    border:1px solid #292929;
+    padding:28px 18px;
+    border-radius:16px;
+    margin-bottom:20px;
+    font-size:19px;
+    line-height:1.5;
+    box-shadow:inset 0 0 30px rgba(255,255,255,.02);
+}
 
-        #hasil {
-            min-height: 25px;
-            margin-top: 15px;
-            font-weight: bold;
-        }
+input{
+    width:100%;
+    padding:14px;
+    background:#050505;
+    color:#fff;
+    border:1px solid #333;
+    border-radius:10px;
+    outline:none;
+    font-size:16px;
+    text-align:center;
+    margin-bottom:12px;
+}
 
-        .skor {
-            margin-top: 20px;
-            color: #aaa;
-        }
+input:focus{
+    border-color:#aaa;
+}
 
-        /* TOMBOL MENYERAH */
-        .menyerah {
-            margin-top: 12px;
-            background: #222;
-            color: white;
-            border: 1px solid #555;
-            font-size: 13px;
-            padding: 9px 18px;
-        }
+#hasil{
+    min-height:25px;
+    margin-top:15px;
+    font-weight:bold;
+}
 
-        .menyerah:hover {
-            background: #333;
-        }
+.skor{
+    margin-top:18px;
+    color:#888;
+}
 
-        /* EMOJI TAI */
-        #tai {
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%) scale(1);
-            font-size: 130px;
-            z-index: 999;
-            display: none;
-            animation: muncul 0.4s ease;
-        }
+.hintArea{
+    margin-top:15px;
+}
 
-        @keyframes muncul {
-            0% {
-                transform: translate(-50%, -50%) scale(0);
-            }
+.hintButton{
+    background:#151515;
+    color:#fff;
+    border:1px solid #444;
+    padding:9px 20px;
+    font-size:13px;
+}
 
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
+.hintButton:disabled{
+    opacity:.35;
+    cursor:not-allowed;
+    transform:none;
+}
 
-        .footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-            padding: 18px;
-            border-top: 1px solid #333;
-            color: #777;
-            font-size: 12px;
-            letter-spacing: 3px;
-        }
-    </style>
+#hintText{
+    color:#aaa;
+    font-size:14px;
+    margin-top:10px;
+    min-height:20px;
+}
+
+#timerHint{
+    color:#555;
+    font-size:11px;
+    margin-top:7px;
+}
+
+.menyerah{
+    margin-top:12px;
+    background:#111;
+    color:#777;
+    border:1px solid #333;
+    font-size:12px;
+    padding:9px 18px;
+}
+
+#tai{
+    position:fixed;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    font-size:140px;
+    z-index:999;
+    display:none;
+    animation:muncul .4s ease;
+}
+
+@keyframes muncul{
+    0%{
+        transform:translate(-50%,-50%) scale(0);
+    }
+    100%{
+        transform:translate(-50%,-50%) scale(1);
+    }
+}
+
+.footer{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    text-align:center;
+    padding:18px;
+    border-top:1px solid #292929;
+    color:#555;
+    font-size:11px;
+    letter-spacing:4px;
+}
+</style>
 </head>
 
 <body>
 
 <div class="website">
 
-    <div class="header">
-        <h1>TEKA TEKI</h1>
-        <p>MARLITHPROJECT</p>
+<div class="header">
+    <h1>TEKA TEKI</h1>
+    <p>MARLITHPROJECT</p>
+</div>
+
+<div class="welcome" id="welcome">
+    <h2>Selamat Datang</h2>
+
+    <p>
+        Uji logika, akal, dan kemampuan
+        berpikirmu dengan berbagai teka-teki.
+    </p>
+
+    <button onclick="mulaiGame()">MULAI</button>
+</div>
+
+<div class="game" id="game">
+
+    <div class="nomor" id="nomorSoal">
+        SOAL 1
     </div>
 
-    <div class="welcome" id="welcome">
+    <div class="soal" id="soal"></div>
 
-        <h2>Selamat Datang</h2>
+    <input
+        type="text"
+        id="jawaban"
+        placeholder="Tulis jawabanmu..."
+        onkeydown="if(event.key==='Enter') cekJawaban()"
+    >
 
-        <p>
-            Uji logika dan kemampuan berpikirmu
-            dengan berbagai teka-teki.
-        </p>
+    <button onclick="cekJawaban()">JAWAB</button>
 
-        <button onclick="mulaiGame()">
-            MULAI
-        </button>
+    <div id="hasil"></div>
 
+    <div class="skor">
+        Skor: <span id="skor">0</span>
     </div>
 
-    <div class="game" id="game">
+    <div class="hintArea">
 
-        <div class="nomor" id="nomorSoal">
-            SOAL 1
-        </div>
-
-        <div class="soal" id="soal">
-            Aku punya banyak gigi,
-            tapi tidak bisa menggigit.
-            Apakah aku?
-        </div>
-
-        <input
-            type="text"
-            id="jawaban"
-            placeholder="Tulis jawabanmu..."
+        <button
+            class="hintButton"
+            id="hintButton"
+            onclick="gunakanHint()"
+            disabled
         >
-
-        <br>
-
-        <button onclick="cekJawaban()">
-            JAWAB
+            💡 HINT
         </button>
 
-        <div id="hasil"></div>
+        <div id="hintText"></div>
 
-        <div class="skor">
-            Skor: <span id="skor">0</span>
+        <div id="timerHint">
+            Hint tersedia dalam 10:00
         </div>
 
-        <br>
-
-        <button class="menyerah" onclick="menyerah()">
-            Menyerah kah?
-        </button>
-
     </div>
 
-    <div class="footer">
-        MARLITHPROJECT
-    </div>
+    <button class="menyerah" onclick="menyerah()">
+        Menyerah kah?
+    </button>
 
 </div>
 
+<div class="footer">
+    MARLITHPROJECT
+</div>
 
-<!-- EMOJI TAI -->
+</div>
+
 <div id="tai">💩</div>
-
 
 <script>
 
-    const soal = [
+const soal = [
 
-        {
-            pertanyaan:
-            "Aku punya banyak gigi, tapi tidak bisa menggigit. Apakah aku?",
-            jawaban: "sisir"
-        },
+{
+pertanyaan:"Aku punya banyak gigi tapi tidak bisa menggigit. Apakah aku?",
+jawaban:["sisir"],
+hint:"Dipakai untuk merapikan rambut."
+},
 
-        {
-            pertanyaan:
-            "Semakin diisi, semakin ringan. Apakah itu?",
-            jawaban: "balon"
-        },
+{
+pertanyaan:"Semakin diisi semakin ringan. Apakah aku?",
+jawaban:["balon"],
+hint:"Benda yang biasanya diisi udara."
+},
 
-        {
-            pertanyaan:
-            "Aku punya wajah dan dua tangan, tapi tidak punya kaki. Apakah aku?",
-            jawaban: "jam"
-        },
+{
+pertanyaan:"Aku punya wajah dan dua tangan tetapi tidak punya kaki. Apakah aku?",
+jawaban:["jam"],
+hint:"Dipakai untuk melihat waktu."
+},
 
-        {
-            pertanyaan:
-            "Aku selalu datang, tetapi tidak pernah tiba. Apakah aku?",
-            jawaban: "besok"
-        },
+{
+pertanyaan:"Aku selalu datang tetapi tidak pernah tiba. Apakah aku?",
+jawaban:["besok"],
+hint:"Hari setelah hari ini."
+},
 
-        {
-            pertanyaan:
-            "Apa yang bisa berjalan tanpa kaki?",
-            jawaban: "air"
+{
+pertanyaan:"Apa yang bisa berjalan tanpa kaki?",
+jawaban:["air"],
+hint:"Sungai memiliki benda ini."
+},
+
+{
+pertanyaan:"Apa yang semakin banyak diambil semakin besar?",
+jawaban:["lubang"],
+hint:"Terbentuk ketika sesuatu diambil dari tanah."
+},
+
+{
+pertanyaan:"Apa yang punya leher tetapi tidak punya kepala?",
+jawaban:["botol"],
+hint:"Biasanya digunakan untuk menyimpan minuman."
+},
+
+{
+pertanyaan:"Apa yang punya mata tetapi tidak bisa melihat?",
+jawaban:["jarum"],
+hint:"Dipakai bersama benang."
+},
+
+{
+pertanyaan:"Apa yang bisa pecah tanpa disentuh?",
+jawaban:["janji"],
+hint:"Sesuatu yang kamu buat kepada seseorang."
+},
+
+{
+pertanyaan:"Apa yang bisa mengelilingi dunia tetapi tetap berada di sudut?",
+jawaban:["perangko"],
+hint:"Biasanya ditempel pada surat."
+},
+
+{
+pertanyaan:"Apa yang selalu basah ketika mengeringkan sesuatu?",
+jawaban:["handuk"],
+hint:"Dipakai setelah mandi."
+},
+
+{
+pertanyaan:"Apa yang punya banyak halaman tetapi bukan rumah?",
+jawaban:["buku"],
+hint:"Dibaca oleh manusia."
+},
+
+{
+pertanyaan:"Apa yang punya kota tetapi tidak punya rumah?",
+jawaban:["peta"],
+hint:"Menunjukkan lokasi suatu tempat."
+},
+
+{
+pertanyaan:"Apa yang punya banyak kunci tetapi tidak bisa membuka pintu?",
+jawaban:["piano"],
+hint:"Alat musik."
+},
+
+{
+pertanyaan:"Apa yang bisa kamu dengar tetapi tidak bisa kamu lihat?",
+jawaban:["suara"],
+hint:"Telinga menangkapnya."
+},
+
+{
+pertanyaan:"Apa yang punya sayap tetapi bukan burung?",
+jawaban:["pesawat"],
+hint:"Membawa manusia terbang."
+},
+
+{
+pertanyaan:"Apa yang punya gigi tetapi bukan makhluk hidup?",
+jawaban:["gergaji"],
+hint:"Digunakan untuk memotong kayu."
+},
+
+{
+pertanyaan:"Apa yang bisa jatuh tetapi tidak pernah terluka?",
+jawaban:["hujan"],
+hint:"Turun dari langit."
+},
+
+{
+pertanyaan:"Apa yang punya kepala tetapi tidak punya otak?",
+jawaban:["paku"],
+hint:"Dipukul menggunakan palu."
+},
+
+{
+pertanyaan:"Apa yang bisa mengisi ruangan tetapi tidak punya bentuk?",
+jawaban:["cahaya"],
+hint:"Lampu menghasilkan benda ini."
+},
+
+{
+pertanyaan:"Apa yang semakin lama semakin pendek?",
+jawaban:["lilin"],
+hint:"Akan berkurang ketika dibakar."
+},
+
+{
+pertanyaan:"Apa yang memiliki banyak lubang tetapi bisa menampung air?",
+jawaban:["spons"],
+hint:"Sering digunakan untuk mencuci."
+},
+
+{
+pertanyaan:"Apa yang tidak punya suara tetapi bisa membuat orang menangis?",
+jawaban:["bawang"],
+hint:"Sering digunakan untuk memasak."
+},
+
+{
+pertanyaan:"Apa yang punya rumah tetapi tidak punya pintu?",
+jawaban:["siput"],
+hint:"Rumahnya dibawa di punggung."
+},
+
+{
+pertanyaan:"Apa yang memiliki ekor tetapi bukan hewan?",
+jawaban:["layang layang","layangan"],
+hint:"Bisa terbang ketika dimainkan di luar."
+},
+
+{
+pertanyaan:"Apa yang bisa bergerak tetapi tidak punya kaki?",
+jawaban:["angin"],
+hint:"Bisa dirasakan tetapi sulit dilihat."
+},
+
+{
+pertanyaan:"Apa yang punya banyak warna dan digunakan untuk menggambar?",
+jawaban:["krayon"],
+hint:"Biasanya dipakai anak-anak untuk mewarnai."
+},
+
+{
+pertanyaan:"Apa yang memiliki roda tetapi tidak selalu berjalan?",
+jawaban:["mobil"],
+hint:"Kendaraan."
+},
+
+{
+pertanyaan:"Apa yang bisa menyala tetapi tidak terbakar?",
+jawaban:["lampu"],
+hint:"Menerangi ruangan."
+},
+
+{
+pertanyaan:"Apa yang memiliki telinga tetapi tidak bisa mendengar?",
+jawaban:["cangkir"],
+hint:"Bagian sampingnya digunakan untuk memegang."
+},
+
+{
+pertanyaan:"Apa yang bisa berbicara tanpa mulut?",
+jawaban:["radio"],
+hint:"Alat elektronik yang menghasilkan suara."
+},
+
+{
+pertanyaan:"Apa yang punya kaki tetapi tidak bisa berjalan dan digunakan untuk duduk?",
+jawaban:["kursi"],
+hint:"Biasanya ada di kelas."
+},
+
+{
+pertanyaan:"Apa yang punya empat kaki tetapi tidak bisa berjalan?",
+jawaban:["meja"],
+hint:"Benda yang biasa digunakan untuk menaruh sesuatu."
+},
+
+{
+pertanyaan:"Apa yang selalu naik tetapi tidak pernah turun?",
+jawaban:["umur"],
+hint:"Semua manusia mengalaminya."
+},
+
+{
+pertanyaan:"Apa yang bisa kamu tangkap tetapi tidak bisa kamu lempar?",
+jawaban:["flu"],
+hint:"Penyakit."
+},
+
+{
+pertanyaan:"Apa yang selalu berada di depanmu tetapi tidak bisa kamu lihat?",
+jawaban:["masa depan"],
+hint:"Sesuatu yang belum terjadi."
+},
+
+{
+pertanyaan:"Apa yang punya kepala dan ekor tetapi tidak punya badan?",
+jawaban:["koin"],
+hint:"Benda yang bisa digunakan untuk membayar."
+},
+
+{
+pertanyaan:"Apa yang bisa terbang tanpa sayap?",
+jawaban:["waktu"],
+hint:"Sering terasa berjalan cepat."
+},
+
+{
+pertanyaan:"Apa yang semakin kamu kejar semakin jauh?",
+jawaban:["bayangan"],
+hint:"Mengikuti kamu ketika ada cahaya."
+},
+
+{
+pertanyaan:"Apa yang bisa kamu lihat tetapi tidak bisa kamu sentuh?",
+jawaban:["bayangan"],
+hint:"Muncul karena cahaya."
+},
+
+{
+pertanyaan:"Apa yang memiliki satu mata tetapi tidak bisa melihat?",
+jawaban:["jarum"],
+hint:"Digunakan untuk menjahit."
+},
+
+{
+pertanyaan:"Apa yang punya banyak daun tetapi bukan pohon?",
+jawaban:["buku"],
+hint:"Daunnya bisa dibalik."
+},
+
+{
+pertanyaan:"Apa yang bisa mengangkat benda berat tanpa tangan?",
+jawaban:["katrol"],
+hint:"Menggunakan roda dan tali."
+},
+
+{
+pertanyaan:"Apa yang punya cincin tetapi tidak punya jari?",
+jawaban:["telepon"],
+hint:"Bisa berdering ketika ada panggilan."
+},
+
+{
+pertanyaan:"Apa yang memiliki akar tetapi tidak tumbuh?",
+jawaban:["gunung"],
+hint:"Ada di bawah atau sekitar gunung."
+},
+
+{
+pertanyaan:"Apa yang punya wajah tetapi tidak punya tubuh?",
+jawaban:["jam"],
+hint:"Ada angka di bagian depannya."
+},
+
+{
+pertanyaan:"Apa yang bisa hilang ketika namanya disebut?",
+jawaban:["keheningan"],
+hint:"Begitu kamu berbicara, benda ini hilang."
+},
+
+{
+pertanyaan:"Apa yang punya empat kaki dan bisa digunakan untuk tidur?",
+jawaban:["tempat tidur","kasur"],
+hint:"Kamu menggunakannya saat tidur."
+},
+
+{
+pertanyaan:"Apa yang punya layar tetapi bukan bioskop?",
+jawaban:["televisi","tv"],
+hint:"Bisa digunakan untuk menonton."
+},
+
+{
+pertanyaan:"Apa yang punya tombol tetapi bukan baju?",
+jawaban:["keyboard"],
+hint:"Dipakai untuk mengetik."
+},
+
+{
+pertanyaan:"Apa yang punya angka tetapi bukan matematika?",
+jawaban:["kalender"],
+hint:"Menunjukkan tanggal."
+}
+
+];
+
+let nomor=0;
+let skor=0;
+let hintTersedia=false;
+let waktuHint=600;
+
+function mulaiGame(){
+
+    document.getElementById("welcome").style.display="none";
+    document.getElementById("game").style.display="block";
+
+    tampilkanSoal();
+    mulaiTimer();
+}
+
+function tampilkanSoal(){
+
+    document.getElementById("nomorSoal").innerText=
+        "SOAL "+(nomor+1);
+
+    document.getElementById("soal").innerText=
+        soal[nomor].pertanyaan;
+
+    document.getElementById("jawaban").value="";
+
+    document.getElementById("hasil").innerText="";
+
+    document.getElementById("hintText").innerText="";
+}
+
+function cekJawaban(){
+
+    let jawaban=document
+        .getElementById("jawaban")
+        .value
+        .toLowerCase()
+        .trim();
+
+    let hasil=document.getElementById("hasil");
+
+    if(jawaban===""){
+        hasil.innerText="⚠️ Tulis jawaban dulu.";
+        return;
+    }
+
+    let benar=soal[nomor].jawaban.some(
+        x=>jawaban===x
+    );
+
+    if(benar){
+
+        skor+=10;
+
+        document.getElementById("skor").innerText=skor;
+
+        hasil.innerText="✅ BENAR!";
+
+        nomor++;
+
+        if(nomor<soal.length){
+
+            setTimeout(tampilkanSoal,700);
+
+        }else{
+
+            document.getElementById("soal").innerText=
+                "🎉 SEMUA SOAL SELESAI!";
+
+            document.getElementById("nomorSoal").innerText=
+                "SELESAI";
+
+            document.getElementById("jawaban").style.display="none";
+
+            hasil.innerText=
+                "Skor akhir: "+skor;
+
         }
 
-    ];
+    }else{
 
-
-    let nomor = 0;
-    let skor = 0;
-
-
-    function mulaiGame() {
-
-        document.getElementById("welcome").style.display = "none";
-
-        document.getElementById("game").style.display = "block";
-
-        tampilkanSoal();
+        hasil.innerText="❌ SALAH! Coba lagi.";
     }
+}
 
+function mulaiTimer(){
 
-    function tampilkanSoal() {
+    setInterval(()=>{
 
-        document.getElementById("nomorSoal").innerText =
-            "SOAL " + (nomor + 1);
+        if(hintTersedia)return;
 
-        document.getElementById("soal").innerText =
-            soal[nomor].pertanyaan;
+        waktuHint--;
 
-        document.getElementById("jawaban").value = "";
+        let menit=Math.floor(waktuHint/60);
 
-        document.getElementById("hasil").innerText = "";
-    }
+        let detik=waktuHint%60;
 
+        if(detik<10)detik="0"+detik;
 
-    function cekJawaban() {
+        document.getElementById("timerHint").innerText=
+            "Hint tersedia dalam "+menit+":"+detik;
 
-        let jawaban =
-            document.getElementById("jawaban")
-            .value
-            .toLowerCase()
-            .trim();
+        if(waktuHint<=0){
 
-        let hasil =
-            document.getElementById("hasil");
+            hintTersedia=true;
 
+            document.getElementById("hintButton").disabled=false;
 
-        if (jawaban === "") {
+            document.getElementById("timerHint").innerText=
+                "💡 HINT TERSEDIA!";
 
-            hasil.innerText =
-                "⚠️ Masukkan jawaban terlebih dahulu.";
-
-            return;
         }
 
+    },1000);
+}
 
-        if (jawaban === soal[nomor].jawaban) {
+function gunakanHint(){
 
-            skor += 10;
+    if(!hintTersedia)return;
 
-            document.getElementById("skor").innerText =
-                skor;
+    document.getElementById("hintText").innerText=
+        "💡 Hint: "+soal[nomor].hint;
 
-            hasil.innerText =
-                "BENAR! 🎉";
+    hintTersedia=false;
 
-            nomor++;
+    waktuHint=600;
 
-            if (nomor < soal.length) {
+    document.getElementById("hintButton").disabled=true;
+}
 
-                setTimeout(tampilkanSoal, 1000);
+function menyerah(){
 
-            } else {
+    let tai=document.getElementById("tai");
 
-                setTimeout(() => {
+    tai.style.display="block";
 
-                    document.getElementById("soal").innerText =
-                        "🎉 SELAMAT! Semua soal selesai!";
-
-                    document.getElementById("nomorSoal").innerText =
-                        "SELESAI";
-
-                    document.getElementById("jawaban").style.display =
-                        "none";
-
-                    hasil.innerText =
-                        "Skor akhir: " + skor;
-
-                }, 1000);
-            }
-
-        } else {
-
-            hasil.innerText =
-                "SALAH! Coba pikir lagi 🤔";
-        }
-    }
-
-
-    function menyerah() {
-
-        let tai = document.getElementById("tai");
-
-        tai.style.display = "block";
-
-        setTimeout(() => {
-
-            tai.style.display = "none";
-
-        }, 2500);
-    }
+    setTimeout(()=>{
+        tai.style.display="none";
+    },2500);
+}
 
 </script>
 
