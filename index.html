@@ -3,235 +3,354 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>TEKA TEKI | MARLITHPROJECT</title>
 
 <style>
-*{box-sizing:border-box}
-
-body{
-    margin:0;
-    min-height:100vh;
-    font-family:Arial,sans-serif;
-    background:#000;
-    color:#fff;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
+* {
+    box-sizing: border-box;
 }
 
-/* serpihan putih */
-body::before{
-    content:"";
-    position:fixed;
-    inset:-100%;
+:root {
+    --bg: #000;
+    --panel: #0d0d0d;
+    --card: #161616;
+    --text: #fff;
+    --muted: #888;
+    --line: #303030;
+}
+
+body.light {
+    --bg: #f4f4f4;
+    --panel: #fff;
+    --card: #ededed;
+    --text: #080808;
+    --muted: #666;
+    --line: #ccc;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .3s;
+    overflow-x: hidden;
+}
+
+/* Background serpihan putih */
+body::before {
+    content: "";
+    position: fixed;
+    inset: -100%;
     background-image:
-        radial-gradient(circle,rgba(255,255,255,.35) 1px,transparent 2px),
-        radial-gradient(circle,rgba(255,255,255,.18) 1px,transparent 2px);
-    background-size:70px 70px,120px 120px;
-    animation:debu 25s linear infinite;
-    pointer-events:none;
+        radial-gradient(circle, rgba(255,255,255,.25) 1px, transparent 2px),
+        radial-gradient(circle, rgba(255,255,255,.12) 1px, transparent 2px);
+    background-size: 75px 75px, 130px 130px;
+    animation: backgroundMove 30s linear infinite;
+    pointer-events: none;
 }
 
-@keyframes debu{
-    from{transform:translate(0,0)}
-    to{transform:translate(120px,180px)}
+body.light::before {
+    background-image:
+        radial-gradient(circle, rgba(0,0,0,.15) 1px, transparent 2px),
+        radial-gradient(circle, rgba(0,0,0,.08) 1px, transparent 2px);
 }
 
-.website{
-    width:92%;
-    max-width:520px;
-    min-height:680px;
-    background:rgba(10,10,10,.95);
-    border:1px solid #333;
-    border-radius:25px;
-    box-shadow:0 0 50px rgba(255,255,255,.08);
-    overflow:hidden;
-    position:relative;
-    z-index:2;
-}
-
-.header{
-    padding:25px;
-    text-align:center;
-    border-bottom:1px solid #292929;
-}
-
-.header h1{
-    margin:0;
-    font-size:30px;
-    letter-spacing:6px;
-}
-
-.header p{
-    margin:8px 0 0;
-    color:#777;
-    font-size:12px;
-    letter-spacing:4px;
-}
-
-.welcome{
-    text-align:center;
-    padding:75px 25px;
-}
-
-.welcome h2{
-    font-size:32px;
-    margin-bottom:15px;
-}
-
-.welcome p{
-    color:#888;
-    line-height:1.6;
-}
-
-button{
-    border:none;
-    background:#fff;
-    color:#000;
-    padding:13px 30px;
-    border-radius:10px;
-    font-size:15px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:.2s;
-}
-
-button:hover{
-    transform:scale(1.04);
-    background:#ddd;
-}
-
-button:active{
-    transform:scale(.96);
-}
-
-.game{
-    display:none;
-    padding:32px 25px 80px;
-    text-align:center;
-}
-
-.nomor{
-    display:inline-block;
-    padding:7px 15px;
-    border:1px solid #444;
-    border-radius:20px;
-    color:#888;
-    font-size:12px;
-    margin-bottom:18px;
-}
-
-.soal{
-    background:#151515;
-    border:1px solid #292929;
-    padding:28px 18px;
-    border-radius:16px;
-    margin-bottom:20px;
-    font-size:19px;
-    line-height:1.5;
-    box-shadow:inset 0 0 30px rgba(255,255,255,.02);
-}
-
-input{
-    width:100%;
-    padding:14px;
-    background:#050505;
-    color:#fff;
-    border:1px solid #333;
-    border-radius:10px;
-    outline:none;
-    font-size:16px;
-    text-align:center;
-    margin-bottom:12px;
-}
-
-input:focus{
-    border-color:#aaa;
-}
-
-#hasil{
-    min-height:25px;
-    margin-top:15px;
-    font-weight:bold;
-}
-
-.skor{
-    margin-top:18px;
-    color:#888;
-}
-
-.hintArea{
-    margin-top:15px;
-}
-
-.hintButton{
-    background:#151515;
-    color:#fff;
-    border:1px solid #444;
-    padding:9px 20px;
-    font-size:13px;
-}
-
-.hintButton:disabled{
-    opacity:.35;
-    cursor:not-allowed;
-    transform:none;
-}
-
-#hintText{
-    color:#aaa;
-    font-size:14px;
-    margin-top:10px;
-    min-height:20px;
-}
-
-#timerHint{
-    color:#555;
-    font-size:11px;
-    margin-top:7px;
-}
-
-.menyerah{
-    margin-top:12px;
-    background:#111;
-    color:#777;
-    border:1px solid #333;
-    font-size:12px;
-    padding:9px 18px;
-}
-
-#tai{
-    position:fixed;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    font-size:140px;
-    z-index:999;
-    display:none;
-    animation:muncul .4s ease;
-}
-
-@keyframes muncul{
-    0%{
-        transform:translate(-50%,-50%) scale(0);
-    }
-    100%{
-        transform:translate(-50%,-50%) scale(1);
+@keyframes backgroundMove {
+    to {
+        transform: translate(150px, 180px);
     }
 }
 
-.footer{
-    position:absolute;
-    bottom:0;
-    width:100%;
-    text-align:center;
-    padding:18px;
-    border-top:1px solid #292929;
-    color:#555;
-    font-size:11px;
-    letter-spacing:4px;
+.website {
+    width: 94%;
+    max-width: 560px;
+    min-height: 700px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 26px;
+    box-shadow: 0 20px 80px rgba(0,0,0,.5);
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
 }
+
+.header {
+    padding: 23px 20px 16px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 29px;
+    letter-spacing: 6px;
+}
+
+.header p {
+    margin: 7px 0 0;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 4px;
+}
+
+.theme {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--line);
+    padding: 7px 9px;
+    font-size: 14px;
+}
+
+.screen {
+    padding: 34px 25px 90px;
+    text-align: center;
+}
+
+.welcome {
+    padding-top: 70px;
+}
+
+.welcome h2 {
+    font-size: 34px;
+    margin: 0 0 14px;
+}
+
+.welcome p {
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+button {
+    border: 1px solid var(--line);
+    background: var(--text);
+    color: var(--bg);
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: scale(.97);
+}
+
+.game {
+    display: none;
+}
+
+.topline {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.progress {
+    height: 6px;
+    background: var(--card);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 22px;
+}
+
+.progress span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--text);
+    transition: .4s;
+}
+
+.nomor {
+    display: inline-block;
+    padding: 7px 14px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 17px;
+}
+
+.soal {
+    background: var(--card);
+    border: 1px solid var(--line);
+    padding: 28px 18px;
+    border-radius: 16px;
+    font-size: 19px;
+    line-height: 1.55;
+    margin-bottom: 18px;
+    animation: soalMasuk .25s ease;
+}
+
+@keyframes soalMasuk {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    outline: none;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+input:focus {
+    border-color: var(--text);
+}
+
+#hasil {
+    min-height: 24px;
+    margin: 14px 0;
+    font-weight: bold;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 18px 0;
+}
+
+.stat {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    padding: 10px 5px;
+}
+
+.stat b {
+    display: block;
+    font-size: 18px;
+}
+
+.stat small {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.tools {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tool {
+    background: transparent;
+    color: var(--text);
+    padding: 9px 15px;
+    font-size: 12px;
+}
+
+.tool:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+#hintText {
+    min-height: 20px;
+    color: var(--muted);
+    font-size: 13px;
+    margin: 9px 0;
+}
+
+#timerHint {
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 12px;
+}
+
+.reset {
+    background: transparent;
+    color: var(--muted);
+    border: none;
+    font-size: 11px;
+    margin-top: 15px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 17px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 4px;
+}
+
+/* Emoji menyerah */
+#tai {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%) scale(0);
+    font-size: 135px;
+    z-index: 999;
+    display: none;
+}
+
+#tai.show {
+    display: block;
+    animation: taiMuncul .35s ease forwards;
+}
+
+@keyframes taiMuncul {
+    to {
+        transform: translate(-50%,-50%) scale(1);
+    }
+}
+
+/* Halaman selesai */
+.finish {
+    display: none;
+    padding: 65px 25px 95px;
+    text-align: center;
+}
+
+.rank {
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin: 20px 0;
+}
+
+.finish p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
 </style>
 </head>
 
@@ -239,49 +358,86 @@ input:focus{
 
 <div class="website">
 
+<button class="theme" onclick="toggleTheme()">◐</button>
+
 <div class="header">
     <h1>TEKA TEKI</h1>
     <p>MARLITHPROJECT</p>
 </div>
 
-<div class="welcome" id="welcome">
+<div class="screen welcome" id="welcome">
+
     <h2>Selamat Datang</h2>
 
     <p>
-        Uji logika, akal, dan kemampuan
-        berpikirmu dengan berbagai teka-teki.
+        Uji logika, ingatan, dan kemampuan berpikirmu.
+        <br>
+        Progress tersimpan otomatis.
     </p>
 
-    <button onclick="mulaiGame()">MULAI</button>
+    <button onclick="mulaiGame()">
+        MULAI
+    </button>
+
 </div>
 
-<div class="game" id="game">
+<div class="screen game" id="game">
+
+    <div class="topline">
+        <span id="counter">SOAL 1 / 150</span>
+        <span id="percent">0%</span>
+    </div>
+
+    <div class="progress">
+        <span id="bar"></span>
+    </div>
 
     <div class="nomor" id="nomorSoal">
         SOAL 1
     </div>
 
-    <div class="soal" id="soal"></div>
+    <div class="soal" id="soal">
+        Aku punya banyak gigi,
+        tapi tidak bisa menggigit.
+        Apakah aku?
+    </div>
 
     <input
         type="text"
         id="jawaban"
         placeholder="Tulis jawabanmu..."
-        onkeydown="if(event.key==='Enter') cekJawaban()"
+        autocomplete="off"
     >
 
-    <button onclick="cekJawaban()">JAWAB</button>
+    <button onclick="cekJawaban()">
+        JAWAB
+    </button>
 
     <div id="hasil"></div>
 
-    <div class="skor">
-        Skor: <span id="skor">0</span>
+    <div class="stats">
+
+        <div class="stat">
+            <b id="skor">0</b>
+            <small>SKOR</small>
+        </div>
+
+        <div class="stat">
+            <b id="streak">0</b>
+            <small>STREAK 🔥</small>
+        </div>
+
+        <div class="stat">
+            <b id="terbaik">0</b>
+            <small>TERBAIK</small>
+        </div>
+
     </div>
 
-    <div class="hintArea">
+    <div class="tools">
 
         <button
-            class="hintButton"
+            class="tool"
             id="hintButton"
             onclick="gunakanHint()"
             disabled
@@ -289,16 +445,52 @@ input:focus{
             💡 HINT
         </button>
 
-        <div id="hintText"></div>
-
-        <div id="timerHint">
-            Hint tersedia dalam 10:00
-        </div>
+        <button
+            class="tool"
+            onclick="menyerah()"
+        >
+            Menyerah kah?
+        </button>
 
     </div>
 
-    <button class="menyerah" onclick="menyerah()">
-        Menyerah kah?
+    <div id="hintText"></div>
+
+    <div id="timerHint">
+        Hint waktu: 10:00
+    </div>
+
+    <button
+        class="reset"
+        onclick="resetProgress()"
+    >
+        RESET PROGRESS
+    </button>
+
+</div>
+
+<div class="finish" id="finish">
+
+    <div class="nomor">
+        SELESAI
+    </div>
+
+    <div class="rank">
+        CERDAS?
+    </div>
+
+    <p>
+        Kamu berhasil menyelesaikan
+        seluruh 150 teka-teki.
+    </p>
+
+    <p>
+        Skor akhir:
+        <b id="skorAkhir">0</b>
+    </p>
+
+    <button onclick="mainLagi()">
+        MAIN LAGI
     </button>
 
 </div>
@@ -313,454 +505,1951 @@ input:focus{
 
 <script>
 
+/* =========================
+   DATA TEKA-TEKI
+========================= */
+
 const soal = [
 
-{
-pertanyaan:"Aku punya banyak gigi tapi tidak bisa menggigit. Apakah aku?",
-jawaban:["sisir"],
-hint:"Dipakai untuk merapikan rambut."
-},
+    {
+        pertanyaan:
+        "Aku punya banyak gigi, tapi tidak bisa menggigit. Apakah aku?",
+        jawaban: "sisir",
+        hint: "Dipakai untuk merapikan rambut."
+    },
 
-{
-pertanyaan:"Semakin diisi semakin ringan. Apakah aku?",
-jawaban:["balon"],
-hint:"Benda yang biasanya diisi udara."
-},
+    {
+        pertanyaan:
+        "Semakin diisi, semakin ringan. Apakah aku?",
+        jawaban: "balon",
+        hint: "Biasanya diisi udara."
+    },
 
-{
-pertanyaan:"Aku punya wajah dan dua tangan tetapi tidak punya kaki. Apakah aku?",
-jawaban:["jam"],
-hint:"Dipakai untuk melihat waktu."
-},
+    {
+        pertanyaan:
+        "Aku punya wajah dan dua tangan, tapi tidak punya kaki. Apakah aku?",
+        jawaban: "jam",
+        hint: "Dipakai untuk melihat waktu."
+    },
 
-{
-pertanyaan:"Aku selalu datang tetapi tidak pernah tiba. Apakah aku?",
-jawaban:["besok"],
-hint:"Hari setelah hari ini."
-},
+    {
+        pertanyaan:
+        "Aku selalu datang, tetapi tidak pernah tiba. Apakah aku?",
+        jawaban: "besok",
+        hint: "Hari setelah hari ini."
+    },
 
-{
-pertanyaan:"Apa yang bisa berjalan tanpa kaki?",
-jawaban:["air"],
-hint:"Sungai memiliki benda ini."
-},
+    {
+        pertanyaan:
+        "Apa yang bisa berjalan tanpa kaki?",
+        jawaban: "air",
+        hint: "Sungai membawanya terus berjalan."
+    },
 
-{
-pertanyaan:"Apa yang semakin banyak diambil semakin besar?",
-jawaban:["lubang"],
-hint:"Terbentuk ketika sesuatu diambil dari tanah."
-},
+    {
+        pertanyaan:
+        "Semakin banyak diambil, semakin besar. Apakah aku?",
+        jawaban: "lubang",
+        hint: "Terbentuk ketika sesuatu diambil."
+    },
 
-{
-pertanyaan:"Apa yang punya leher tetapi tidak punya kepala?",
-jawaban:["botol"],
-hint:"Biasanya digunakan untuk menyimpan minuman."
-},
+    {
+        pertanyaan:
+        "Aku punya leher tetapi tidak punya kepala. Apakah aku?",
+        jawaban: "botol",
+        hint: "Sering dipakai untuk minuman."
+    },
 
-{
-pertanyaan:"Apa yang punya mata tetapi tidak bisa melihat?",
-jawaban:["jarum"],
-hint:"Dipakai bersama benang."
-},
+    {
+        pertanyaan:
+        "Aku punya mata tetapi tidak bisa melihat. Apakah aku?",
+        jawaban: "jarum",
+        hint: "Dipakai bersama benang."
+    },
 
-{
-pertanyaan:"Apa yang bisa pecah tanpa disentuh?",
-jawaban:["janji"],
-hint:"Sesuatu yang kamu buat kepada seseorang."
-},
+    {
+        pertanyaan:
+        "Aku bisa pecah tanpa disentuh. Apakah aku?",
+        jawaban: "janji",
+        hint: "Sesuatu yang bisa dibuat kepada orang lain."
+    },
 
-{
-pertanyaan:"Apa yang bisa mengelilingi dunia tetapi tetap berada di sudut?",
-jawaban:["perangko"],
-hint:"Biasanya ditempel pada surat."
-},
+    {
+        pertanyaan:
+        "Aku bisa mengelilingi dunia tetapi tetap berada di sudut. Apakah aku?",
+        jawaban: "perangko",
+        hint: "Biasanya menempel pada surat."
+    },
 
-{
-pertanyaan:"Apa yang selalu basah ketika mengeringkan sesuatu?",
-jawaban:["handuk"],
-hint:"Dipakai setelah mandi."
-},
+    {
+        pertanyaan:
+        "Aku selalu basah ketika mengeringkan sesuatu. Apakah aku?",
+        jawaban: "handuk",
+        hint: "Dipakai setelah mandi."
+    },
 
-{
-pertanyaan:"Apa yang punya banyak halaman tetapi bukan rumah?",
-jawaban:["buku"],
-hint:"Dibaca oleh manusia."
-},
+    {
+        pertanyaan:
+        "Aku punya banyak halaman tetapi bukan rumah. Apakah aku?",
+        jawaban: "buku",
+        hint: "Dibaca dan halamannya bisa dibalik."
+    },
 
-{
-pertanyaan:"Apa yang punya kota tetapi tidak punya rumah?",
-jawaban:["peta"],
-hint:"Menunjukkan lokasi suatu tempat."
-},
+    {
+        pertanyaan:
+        "Aku punya kota tetapi tidak punya rumah. Apakah aku?",
+        jawaban: "peta",
+        hint: "Menunjukkan lokasi."
+    },
 
-{
-pertanyaan:"Apa yang punya banyak kunci tetapi tidak bisa membuka pintu?",
-jawaban:["piano"],
-hint:"Alat musik."
-},
+    {
+        pertanyaan:
+        "Aku punya banyak kunci tetapi tidak bisa membuka pintu. Apakah aku?",
+        jawaban: "piano",
+        hint: "Alat musik."
+    },
 
-{
-pertanyaan:"Apa yang bisa kamu dengar tetapi tidak bisa kamu lihat?",
-jawaban:["suara"],
-hint:"Telinga menangkapnya."
-},
+    {
+        pertanyaan:
+        "Aku bisa didengar tetapi tidak bisa dilihat. Apakah aku?",
+        jawaban: "suara",
+        hint: "Ditangkap oleh telinga."
+    },
 
-{
-pertanyaan:"Apa yang punya sayap tetapi bukan burung?",
-jawaban:["pesawat"],
-hint:"Membawa manusia terbang."
-},
+    {
+        pertanyaan:
+        "Aku punya sayap tetapi bukan burung. Apakah aku?",
+        jawaban: "pesawat",
+        hint: "Membawa manusia di udara."
+    },
 
-{
-pertanyaan:"Apa yang punya gigi tetapi bukan makhluk hidup?",
-jawaban:["gergaji"],
-hint:"Digunakan untuk memotong kayu."
-},
+    {
+        pertanyaan:
+        "Aku punya gigi tetapi bukan makhluk hidup. Apakah aku?",
+        jawaban: "gergaji",
+        hint: "Dipakai untuk memotong kayu."
+    },
 
-{
-pertanyaan:"Apa yang bisa jatuh tetapi tidak pernah terluka?",
-jawaban:["hujan"],
-hint:"Turun dari langit."
-},
+    {
+        pertanyaan:
+        "Aku bisa jatuh tetapi tidak pernah terluka. Apakah aku?",
+        jawaban: "hujan",
+        hint: "Turun dari langit."
+    },
 
-{
-pertanyaan:"Apa yang punya kepala tetapi tidak punya otak?",
-jawaban:["paku"],
-hint:"Dipukul menggunakan palu."
-},
+    {
+        pertanyaan:
+        "Aku punya kepala tetapi tidak punya otak. Apakah aku?",
+        jawaban: "paku",
+        hint: "Dipukul dengan palu."
+    },
 
-{
-pertanyaan:"Apa yang bisa mengisi ruangan tetapi tidak punya bentuk?",
-jawaban:["cahaya"],
-hint:"Lampu menghasilkan benda ini."
-},
+    {
+        pertanyaan:
+        "Aku bisa mengisi ruangan tetapi tidak punya bentuk. Apakah aku?",
+        jawaban: "cahaya",
+        hint: "Lampu menghasilkan aku."
+    },
 
-{
-pertanyaan:"Apa yang semakin lama semakin pendek?",
-jawaban:["lilin"],
-hint:"Akan berkurang ketika dibakar."
-},
+    {
+        pertanyaan:
+        "Aku semakin lama semakin pendek. Apakah aku?",
+        jawaban: "lilin",
+        hint: "Berkurang ketika dibakar."
+    },
 
-{
-pertanyaan:"Apa yang memiliki banyak lubang tetapi bisa menampung air?",
-jawaban:["spons"],
-hint:"Sering digunakan untuk mencuci."
-},
+    {
+        pertanyaan:
+        "Aku punya banyak lubang tetapi bisa menampung air. Apakah aku?",
+        jawaban: "spons",
+        hint: "Sering dipakai untuk mencuci."
+    },
 
-{
-pertanyaan:"Apa yang tidak punya suara tetapi bisa membuat orang menangis?",
-jawaban:["bawang"],
-hint:"Sering digunakan untuk memasak."
-},
+    {
+        pertanyaan:
+        "Aku tidak punya suara tetapi bisa membuat orang menangis. Apakah aku?",
+        jawaban: "bawang",
+        hint: "Sering dipakai memasak."
+    },
 
-{
-pertanyaan:"Apa yang punya rumah tetapi tidak punya pintu?",
-jawaban:["siput"],
-hint:"Rumahnya dibawa di punggung."
-},
+    {
+        pertanyaan:
+        "Aku punya rumah tetapi tidak punya pintu. Apakah aku?",
+        jawaban: "siput",
+        hint: "Rumahnya dibawa di punggung."
+    },
 
-{
-pertanyaan:"Apa yang memiliki ekor tetapi bukan hewan?",
-jawaban:["layang layang","layangan"],
-hint:"Bisa terbang ketika dimainkan di luar."
-},
+    {
+        pertanyaan:
+        "Aku punya ekor tetapi bukan hewan. Apakah aku?",
+        jawaban: "layangan",
+        hint: "Bisa terbang ketika ada angin."
+    },
 
-{
-pertanyaan:"Apa yang bisa bergerak tetapi tidak punya kaki?",
-jawaban:["angin"],
-hint:"Bisa dirasakan tetapi sulit dilihat."
-},
+    {
+        pertanyaan:
+        "Aku bisa bergerak tetapi tidak punya kaki. Apakah aku?",
+        jawaban: "angin",
+        hint: "Bisa dirasakan tetapi sulit dilihat."
+    },
 
-{
-pertanyaan:"Apa yang punya banyak warna dan digunakan untuk menggambar?",
-jawaban:["krayon"],
-hint:"Biasanya dipakai anak-anak untuk mewarnai."
-},
+    {
+        pertanyaan:
+        "Aku punya banyak warna dan dipakai untuk menggambar. Apakah aku?",
+        jawaban: "krayon",
+        hint: "Sering dipakai untuk mewarnai."
+    },
 
-{
-pertanyaan:"Apa yang memiliki roda tetapi tidak selalu berjalan?",
-jawaban:["mobil"],
-hint:"Kendaraan."
-},
+    {
+        pertanyaan:
+        "Aku punya roda tetapi tidak selalu berjalan. Apakah aku?",
+        jawaban: "mobil",
+        hint: "Kendaraan."
+    },
 
-{
-pertanyaan:"Apa yang bisa menyala tetapi tidak terbakar?",
-jawaban:["lampu"],
-hint:"Menerangi ruangan."
-},
+    {
+        pertanyaan:
+        "Aku bisa menyala tetapi tidak terbakar. Apakah aku?",
+        jawaban: "lampu",
+        hint: "Menerangi ruangan."
+    },
 
-{
-pertanyaan:"Apa yang memiliki telinga tetapi tidak bisa mendengar?",
-jawaban:["cangkir"],
-hint:"Bagian sampingnya digunakan untuk memegang."
-},
+    {
+        pertanyaan:
+        "Aku punya telinga tetapi tidak bisa mendengar. Apakah aku?",
+        jawaban: "cangkir",
+        hint: "Bagian sampingnya sering disebut telinga."
+    },
 
-{
-pertanyaan:"Apa yang bisa berbicara tanpa mulut?",
-jawaban:["radio"],
-hint:"Alat elektronik yang menghasilkan suara."
-},
+    {
+        pertanyaan:
+        "Aku bisa berbicara tanpa mulut. Apakah aku?",
+        jawaban: "radio",
+        hint: "Menghasilkan suara."
+    },
 
-{
-pertanyaan:"Apa yang punya kaki tetapi tidak bisa berjalan dan digunakan untuk duduk?",
-jawaban:["kursi"],
-hint:"Biasanya ada di kelas."
-},
+    {
+        pertanyaan:
+        "Aku punya kaki tetapi tidak bisa berjalan dan digunakan untuk duduk. Apakah aku?",
+        jawaban: "kursi",
+        hint: "Biasanya ada di kelas."
+    },
 
-{
-pertanyaan:"Apa yang punya empat kaki tetapi tidak bisa berjalan?",
-jawaban:["meja"],
-hint:"Benda yang biasa digunakan untuk menaruh sesuatu."
-},
+    {
+        pertanyaan:
+        "Aku punya empat kaki tetapi tidak bisa berjalan. Apakah aku?",
+        jawaban: "meja",
+        hint: "Tempat menaruh barang."
+    },
 
-{
-pertanyaan:"Apa yang selalu naik tetapi tidak pernah turun?",
-jawaban:["umur"],
-hint:"Semua manusia mengalaminya."
-},
+    {
+        pertanyaan:
+        "Aku selalu naik tetapi tidak pernah turun. Apakah aku?",
+        jawaban: "umur",
+        hint: "Bertambah seiring waktu."
+    },
 
-{
-pertanyaan:"Apa yang bisa kamu tangkap tetapi tidak bisa kamu lempar?",
-jawaban:["flu"],
-hint:"Penyakit."
-},
+    {
+        pertanyaan:
+        "Apa yang bisa kamu tangkap tetapi tidak bisa kamu lempar?",
+        jawaban: "flu",
+        hint: "Sebuah penyakit."
+    },
 
-{
-pertanyaan:"Apa yang selalu berada di depanmu tetapi tidak bisa kamu lihat?",
-jawaban:["masa depan"],
-hint:"Sesuatu yang belum terjadi."
-},
+    {
+        pertanyaan:
+        "Aku selalu berada di depanmu tetapi tidak bisa kamu lihat. Apakah aku?",
+        jawaban: "masa depan",
+        hint: "Belum terjadi."
+    },
 
-{
-pertanyaan:"Apa yang punya kepala dan ekor tetapi tidak punya badan?",
-jawaban:["koin"],
-hint:"Benda yang bisa digunakan untuk membayar."
-},
+    {
+        pertanyaan:
+        "Aku punya kepala dan ekor tetapi tidak punya badan. Apakah aku?",
+        jawaban: "koin",
+        hint: "Dipakai sebagai alat pembayaran."
+    },
 
-{
-pertanyaan:"Apa yang bisa terbang tanpa sayap?",
-jawaban:["waktu"],
-hint:"Sering terasa berjalan cepat."
-},
+    {
+        pertanyaan:
+        "Aku bisa terbang tanpa sayap. Apakah aku?",
+        jawaban: "waktu",
+        hint: "Sering terasa berjalan cepat."
+    },
 
-{
-pertanyaan:"Apa yang semakin kamu kejar semakin jauh?",
-jawaban:["bayangan"],
-hint:"Mengikuti kamu ketika ada cahaya."
-},
+    {
+        pertanyaan:
+        "Semakin kamu kejar semakin jauh. Apakah aku?",
+        jawaban: "bayangan",
+        hint: "Muncul karena cahaya."
+    },
 
-{
-pertanyaan:"Apa yang bisa kamu lihat tetapi tidak bisa kamu sentuh?",
-jawaban:["bayangan"],
-hint:"Muncul karena cahaya."
-},
+    {
+        pertanyaan:
+        "Aku bisa dilihat tetapi tidak bisa disentuh. Apakah aku?",
+        jawaban: "bayangan",
+        hint: "Mengikuti benda saat ada cahaya."
+    },
 
-{
-pertanyaan:"Apa yang memiliki satu mata tetapi tidak bisa melihat?",
-jawaban:["jarum"],
-hint:"Digunakan untuk menjahit."
-},
+    {
+        pertanyaan:
+        "Aku punya satu mata tetapi tidak bisa melihat. Apakah aku?",
+        jawaban: "jarum",
+        hint: "Dipakai untuk menjahit."
+    },
 
-{
-pertanyaan:"Apa yang punya banyak daun tetapi bukan pohon?",
-jawaban:["buku"],
-hint:"Daunnya bisa dibalik."
-},
+    {
+        pertanyaan:
+        "Aku punya banyak daun tetapi bukan pohon. Apakah aku?",
+        jawaban: "buku",
+        hint: "Daunnya bisa dibalik."
+    },
 
-{
-pertanyaan:"Apa yang bisa mengangkat benda berat tanpa tangan?",
-jawaban:["katrol"],
-hint:"Menggunakan roda dan tali."
-},
+    {
+        pertanyaan:
+        "Aku bisa mengangkat benda berat tanpa tangan. Apakah aku?",
+        jawaban: "katrol",
+        hint: "Menggunakan roda dan tali."
+    },
 
-{
-pertanyaan:"Apa yang punya cincin tetapi tidak punya jari?",
-jawaban:["telepon"],
-hint:"Bisa berdering ketika ada panggilan."
-},
+    {
+        pertanyaan:
+        "Aku punya cincin tetapi tidak punya jari. Apakah aku?",
+        jawaban: "telepon",
+        hint: "Bisa berdering."
+    },
 
-{
-pertanyaan:"Apa yang memiliki akar tetapi tidak tumbuh?",
-jawaban:["gunung"],
-hint:"Ada di bawah atau sekitar gunung."
-},
+    {
+        pertanyaan:
+        "Aku punya wajah tetapi tidak punya tubuh. Apakah aku?",
+        jawaban: "jam",
+        hint: "Ada angka di bagian depan."
+    },
 
-{
-pertanyaan:"Apa yang punya wajah tetapi tidak punya tubuh?",
-jawaban:["jam"],
-hint:"Ada angka di bagian depannya."
-},
+    {
+        pertanyaan:
+        "Aku bisa hilang ketika namanya disebut. Apakah aku?",
+        jawaban: "keheningan",
+        hint: "Berbicara akan menghilangkannya."
+    },
 
-{
-pertanyaan:"Apa yang bisa hilang ketika namanya disebut?",
-jawaban:["keheningan"],
-hint:"Begitu kamu berbicara, benda ini hilang."
-},
+    {
+        pertanyaan:
+        "Aku punya empat kaki dan dipakai untuk tidur. Apakah aku?",
+        jawaban: "tempat tidur",
+        hint: "Dipakai saat tidur."
+    },
 
-{
-pertanyaan:"Apa yang punya empat kaki dan bisa digunakan untuk tidur?",
-jawaban:["tempat tidur","kasur"],
-hint:"Kamu menggunakannya saat tidur."
-},
+    {
+        pertanyaan:
+        "Aku punya layar tetapi bukan bioskop. Apakah aku?",
+        jawaban: "televisi",
+        hint: "Dipakai untuk menonton."
+    },
 
-{
-pertanyaan:"Apa yang punya layar tetapi bukan bioskop?",
-jawaban:["televisi","tv"],
-hint:"Bisa digunakan untuk menonton."
-},
+    {
+        pertanyaan:
+        "Aku punya tombol tetapi bukan baju. Apakah aku?",
+        jawaban: "keyboard",
+        hint: "Dipakai untuk mengetik."
+    },
 
-{
-pertanyaan:"Apa yang punya tombol tetapi bukan baju?",
-jawaban:["keyboard"],
-hint:"Dipakai untuk mengetik."
-},
+    {
+        pertanyaan:
+        "Aku punya angka dan menunjukkan tanggal. Apakah aku?",
+        jawaban: "kalender",
+        hint: "Digantung atau dibawa."
+    },
 
-{
-pertanyaan:"Apa yang punya angka tetapi bukan matematika?",
-jawaban:["kalender"],
-hint:"Menunjukkan tanggal."
+    {
+        pertanyaan:
+        "Aku punya kulit tetapi bukan manusia dan sering dimakan. Apakah aku?",
+        jawaban: "pisang",
+        hint: "Buah berkulit kuning."
+    },
+
+    {
+        pertanyaan:
+        "Aku merah dan sering dipakai membuat saus. Apakah aku?",
+        jawaban: "tomat",
+        hint: "Buah yang sering dianggap sayur."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya biji dan sering dibuat jus. Apakah aku?",
+        jawaban: "jeruk",
+        hint: "Buah yang rasanya bisa asam."
+    },
+
+    {
+        pertanyaan:
+        "Aku kecil, hijau, dan bisa melompat. Apakah aku?",
+        jawaban: "katak",
+        hint: "Hewan yang hidup dekat air."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya belalai panjang. Apakah aku?",
+        jawaban: "gajah",
+        hint: "Hewan darat besar."
+    },
+
+    {
+        pertanyaan:
+        "Aku hidup di air dan bernapas dengan insang. Apakah aku?",
+        jawaban: "ikan",
+        hint: "Hewan air."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya delapan kaki. Apakah aku?",
+        jawaban: "gurita",
+        hint: "Hidup di laut."
+    },
+
+    {
+        pertanyaan:
+        "Aku menghasilkan madu. Apakah aku?",
+        jawaban: "lebah",
+        hint: "Serangga yang hidup berkoloni."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya cangkang dan berjalan lambat. Apakah aku?",
+        jawaban: "kura kura",
+        hint: "Reptil bercangkang."
+    },
+
+    {
+        pertanyaan:
+        "Aku berbunyi kukuruyuk pada pagi hari. Apakah aku?",
+        jawaban: "ayam",
+        hint: "Hewan ternak."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya surai dan sering disebut raja hutan. Apakah aku?",
+        jawaban: "singa",
+        hint: "Kucing besar."
+    },
+
+    {
+        pertanyaan:
+        "Aku hitam putih dan suka makan bambu. Apakah aku?",
+        jawaban: "panda",
+        hint: "Hewan dari Tiongkok."
+    },
+
+    {
+        pertanyaan:
+        "Aku bisa berubah warna untuk menyamarkan diri. Apakah aku?",
+        jawaban: "bunglon",
+        hint: "Reptil yang terkenal dengan kemampuan itu."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya tanduk dan menghasilkan susu. Apakah aku?",
+        jawaban: "sapi",
+        hint: "Hewan ternak."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya sayap berwarna-warni dan berasal dari ulat. Apakah aku?",
+        jawaban: "kupu kupu",
+        hint: "Serangga bersayap."
+    },
+
+    {
+        pertanyaan:
+        "Aku terbang malam hari dan menggunakan gema. Apakah aku?",
+        jawaban: "kelelawar",
+        hint: "Mamalia yang aktif malam."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya leher sangat panjang. Apakah aku?",
+        jawaban: "jerapah",
+        hint: "Hewan darat tinggi."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya kantong untuk membawa anak. Apakah aku?",
+        jawaban: "kanguru",
+        hint: "Hewan khas Australia."
+    },
+
+    {
+        pertanyaan:
+        "Aku disebut kapal gurun. Apakah aku?",
+        jawaban: "unta",
+        hint: "Bisa hidup di lingkungan kering."
+    },
+
+    {
+        pertanyaan:
+        "Aku membuat sarang dari benang. Apakah aku?",
+        jawaban: "laba laba",
+        hint: "Hewan berkaki delapan."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya paruh dan bisa meniru suara manusia. Apakah aku?",
+        jawaban: "burung beo",
+        hint: "Burung yang terkenal pandai meniru suara."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya sirip dan hidup di laut. Apakah aku?",
+        jawaban: "lumba lumba",
+        hint: "Mamalia laut."
+    },
+
+    {
+        pertanyaan:
+        "Aku besar, abu-abu, dan punya tanduk di hidung. Apakah aku?",
+        jawaban: "badak",
+        hint: "Mamalia besar bercula."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya belang hitam putih. Apakah aku?",
+        jawaban: "zebra",
+        hint: "Hewan Afrika."
+    },
+
+    {
+        pertanyaan:
+        "Aku sering disebut sahabat manusia. Apakah aku?",
+        jawaban: "anjing",
+        hint: "Hewan peliharaan umum."
+    },
+
+    {
+        pertanyaan:
+        "Aku mengeong dan suka mengejar tikus. Apakah aku?",
+        jawaban: "kucing",
+        hint: "Hewan peliharaan."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya akar, batang, dan daun. Apakah aku?",
+        jawaban: "pohon",
+        hint: "Tumbuhan berkayu."
+    },
+
+    {
+        pertanyaan:
+        "Aku berwarna hijau dan membuat makanan dengan cahaya. Apakah aku?",
+        jawaban: "daun",
+        hint: "Tempat utama fotosintesis."
+    },
+
+    {
+        pertanyaan:
+        "Aku terlihat setelah hujan dan punya banyak warna. Apakah aku?",
+        jawaban: "pelangi",
+        hint: "Muncul karena cahaya dan tetes air."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah satelit alami Bumi. Apakah aku?",
+        jawaban: "bulan",
+        hint: "Terlihat jelas pada malam hari."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah bintang yang dekat dengan Bumi. Apakah aku?",
+        jawaban: "matahari",
+        hint: "Sumber utama cahaya dan energi Bumi."
+    },
+
+    {
+        pertanyaan:
+        "Aku tempat manusia tinggal. Apakah aku?",
+        jawaban: "rumah",
+        hint: "Bangunan untuk tempat tinggal."
+    },
+
+    {
+        pertanyaan:
+        "Aku dipakai untuk menulis di papan putih. Apakah aku?",
+        jawaban: "spidol",
+        hint: "Alat tulis."
+    },
+
+    {
+        pertanyaan:
+        "Aku dipakai untuk menghapus tulisan pensil. Apakah aku?",
+        jawaban: "penghapus",
+        hint: "Alat tulis kecil."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya tinta dan dipakai menulis. Apakah aku?",
+        jawaban: "pulpen",
+        hint: "Alat tulis."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya ujung runcing dan dipakai menulis. Apakah aku?",
+        jawaban: "pensil",
+        hint: "Bisa diraut."
+    },
+
+    {
+        pertanyaan:
+        "Aku dipakai untuk mengukur panjang. Apakah aku?",
+        jawaban: "penggaris",
+        hint: "Biasanya punya satuan cm."
+    },
+
+    {
+        pertanyaan:
+        "Aku dipakai untuk memotong kertas. Apakah aku?",
+        jawaban: "gunting",
+        hint: "Memiliki dua bilah."
+    },
+
+    {
+        pertanyaan:
+        "Aku dipakai untuk merekatkan kertas. Apakah aku?",
+        jawaban: "lem",
+        hint: "Membuat dua benda menempel."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya layar dan bisa menjalankan aplikasi. Apakah aku?",
+        jawaban: "ponsel",
+        hint: "Sering dibawa di saku."
+    },
+
+    {
+        pertanyaan:
+        "Aku memberi tenaga pada perangkat tanpa kabel. Apakah aku?",
+        jawaban: "baterai",
+        hint: "Menyimpan energi listrik."
+    },
+
+    {
+        pertanyaan:
+        "Aku dipakai untuk mengisi daya ponsel. Apakah aku?",
+        jawaban: "charger",
+        hint: "Terhubung ke sumber listrik."
+    },
+
+    {
+        pertanyaan:
+        "Aku mengeluarkan suara dan dipakai mendengarkan musik. Apakah aku?",
+        jawaban: "speaker",
+        hint: "Menghasilkan suara."
+    },
+
+    {
+        pertanyaan:
+        "Aku dipakai di telinga untuk mendengar suara pribadi. Apakah aku?",
+        jawaban: "earphone",
+        hint: "Perangkat audio kecil."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya tombol angka dan huruf untuk mengetik. Apakah aku?",
+        jawaban: "keyboard",
+        hint: "Perangkat input komputer."
+    },
+
+    {
+        pertanyaan:
+        "Aku digerakkan dengan tangan untuk mengontrol kursor. Apakah aku?",
+        jawaban: "mouse",
+        hint: "Perangkat komputer."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya layar besar dan biasanya diletakkan di meja komputer. Apakah aku?",
+        jawaban: "monitor",
+        hint: "Menampilkan gambar dari komputer."
+    },
+
+    {
+        pertanyaan:
+        "Aku menyimpan file dan bisa dibawa kecil. Apakah aku?",
+        jawaban: "flashdisk",
+        hint: "Media penyimpanan USB."
+    },
+
+    {
+        pertanyaan:
+        "Aku menghubungkan perangkat ke internet tanpa kabel. Apakah aku?",
+        jawaban: "wifi",
+        hint: "Teknologi jaringan nirkabel."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah jaringan komputer terbesar di dunia. Apakah aku?",
+        jawaban: "internet",
+        hint: "Menghubungkan banyak jaringan."
+    },
+
+    {
+        pertanyaan:
+        "Aku digunakan untuk mencari informasi di internet. Apakah aku?",
+        jawaban: "browser",
+        hint: "Digunakan untuk membuka situs."
+    },
+
+    {
+        pertanyaan:
+        "Aku tempat menyimpan file secara online. Apakah aku?",
+        jawaban: "cloud",
+        hint: "Penyimpanan berbasis internet."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah kumpulan instruksi untuk komputer. Apakah aku?",
+        jawaban: "program",
+        hint: "Komputer menjalankannya."
+    },
+
+    {
+        pertanyaan:
+        "Aku bahasa pemrograman yang namanya seperti hewan. Apakah aku?",
+        jawaban: "python",
+        hint: "Nama bahasa pemrograman."
+    },
+
+    {
+        pertanyaan:
+        "Aku digunakan untuk membuat struktur halaman web. Apakah aku?",
+        jawaban: "html",
+        hint: "Bahasa markup web."
+    },
+
+    {
+        pertanyaan:
+        "Aku digunakan untuk mengatur tampilan halaman web. Apakah aku?",
+        jawaban: "css",
+        hint: "Mengatur gaya dan layout."
+    },
+
+    {
+        pertanyaan:
+        "Aku digunakan untuk membuat halaman web menjadi interaktif. Apakah aku?",
+        jawaban: "javascript",
+        hint: "Bahasa pemrograman web."
+    },
+
+    {
+        pertanyaan:
+        "Aku tempat kode disimpan dan dikerjakan bersama. Apakah aku?",
+        jawaban: "github",
+        hint: "Platform pengembangan perangkat lunak."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah hasil dari 5 + 5. Apakah aku?",
+        jawaban: "10",
+        hint: "Penjumlahan sederhana."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah hasil dari 10 - 3. Apakah aku?",
+        jawaban: "7",
+        hint: "Kurangi sepuluh dengan tiga."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah hasil dari 4 x 5. Apakah aku?",
+        jawaban: "20",
+        hint: "Perkalian sederhana."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah hasil dari 20 dibagi 4. Apakah aku?",
+        jawaban: "5",
+        hint: "Pembagian sederhana."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya 60 detik. Apakah aku?",
+        jawaban: "menit",
+        hint: "Satuan waktu."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya 60 menit. Apakah aku?",
+        jawaban: "jam",
+        hint: "Satuan waktu."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya 24 jam. Apakah aku?",
+        jawaban: "hari",
+        hint: "Satu putaran siang dan malam."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya 7 hari. Apakah aku?",
+        jawaban: "minggu",
+        hint: "Satuan waktu."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya 12 bulan. Apakah aku?",
+        jawaban: "tahun",
+        hint: "Satuan waktu."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya 3 sisi. Apakah aku?",
+        jawaban: "segitiga",
+        hint: "Bangun datar."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya 4 sisi sama panjang. Apakah aku?",
+        jawaban: "persegi",
+        hint: "Bangun datar."
+    },
+
+    {
+        pertanyaan:
+        "Aku tidak punya sudut dan berbentuk bulat. Apakah aku?",
+        jawaban: "lingkaran",
+        hint: "Bangun datar."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya 4 sisi tetapi tidak semuanya sama panjang. Apakah aku?",
+        jawaban: "persegi panjang",
+        hint: "Bangun datar."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah warna hasil campuran merah dan putih. Apakah aku?",
+        jawaban: "merah muda",
+        hint: "Warna yang lebih terang dari merah."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah warna hasil campuran biru dan kuning. Apakah aku?",
+        jawaban: "hijau",
+        hint: "Banyak ditemukan pada daun."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah alat untuk melihat benda yang sangat kecil. Apakah aku?",
+        jawaban: "mikroskop",
+        hint: "Dipakai dalam ilmu pengetahuan."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah alat untuk melihat benda jauh di langit. Apakah aku?",
+        jawaban: "teleskop",
+        hint: "Dipakai mengamati benda langit."
+    },
+
+    {
+        pertanyaan:
+        "Aku mengukur suhu. Apakah aku?",
+        jawaban: "termometer",
+        hint: "Alat pengukur suhu."
+    },
+
+    {
+        pertanyaan:
+        "Aku menunjukkan arah utara, selatan, timur, dan barat. Apakah aku?",
+        jawaban: "kompas",
+        hint: "Alat penunjuk arah."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah planet tempat kita tinggal. Apakah aku?",
+        jawaban: "bumi",
+        hint: "Planet ketiga dari Matahari."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah planet merah. Apakah aku?",
+        jawaban: "mars",
+        hint: "Planet yang dikenal berwarna kemerahan."
+    },
+
+    {
+        pertanyaan:
+        "Aku planet terbesar di Tata Surya. Apakah aku?",
+        jawaban: "jupiter",
+        hint: "Planet raksasa gas."
+    },
+
+    {
+        pertanyaan:
+        "Aku punya cincin yang sangat terkenal. Apakah aku?",
+        jawaban: "saturnus",
+        hint: "Planet bercincin."
+    },
+
+    {
+        pertanyaan:
+        "Aku planet yang paling dekat dengan Matahari. Apakah aku?",
+        jawaban: "merkurius",
+        hint: "Planet terkecil di Tata Surya."
+    },
+
+    {
+        pertanyaan:
+        "Aku proses tumbuhan membuat makanan dengan cahaya. Apakah aku?",
+        jawaban: "fotosintesis",
+        hint: "Membutuhkan cahaya."
+    },
+
+    {
+        pertanyaan:
+        "Aku gas yang dibutuhkan manusia untuk bernapas. Apakah aku?",
+        jawaban: "oksigen",
+        hint: "Ada di udara."
+    },
+
+    {
+        pertanyaan:
+        "Aku gas yang banyak digunakan tumbuhan dalam fotosintesis. Apakah aku?",
+        jawaban: "karbon dioksida",
+        hint: "Diserap tumbuhan dari udara."
+    },
+
+    {
+        pertanyaan:
+        "Aku zat yang bentuknya mengikuti wadah tetapi volumenya tetap. Apakah aku?",
+        jawaban: "cairan",
+        hint: "Salah satu wujud zat."
+    },
+
+    {
+        pertanyaan:
+        "Aku zat yang bentuk dan volumenya tetap. Apakah aku?",
+        jawaban: "padat",
+        hint: "Contohnya batu."
+    },
+
+    {
+        pertanyaan:
+        "Aku zat yang tidak punya bentuk tetap dan mengisi ruang. Apakah aku?",
+        jawaban: "gas",
+        hint: "Contohnya udara."
+    },
+
+    {
+        pertanyaan:
+        "Aku perubahan dari cair menjadi gas. Apakah aku?",
+        jawaban: "menguap",
+        hint: "Air menjadi uap."
+    },
+
+    {
+        pertanyaan:
+        "Aku perubahan dari gas menjadi cair. Apakah aku?",
+        jawaban: "mengembun",
+        hint: "Contohnya titik air pada permukaan dingin."
+    },
+
+    {
+        pertanyaan:
+        "Aku perubahan dari padat menjadi cair. Apakah aku?",
+        jawaban: "mencair",
+        hint: "Es mengalami proses ini."
+    },
+
+    {
+        pertanyaan:
+        "Aku perubahan dari cair menjadi padat. Apakah aku?",
+        jawaban: "membeku",
+        hint: "Air menjadi es."
+    },
+
+    {
+        pertanyaan:
+        "Aku gaya yang menarik benda ke Bumi. Apakah aku?",
+        jawaban: "gravitasi",
+        hint: "Membuat benda jatuh ke bawah."
+    },
+
+    {
+        pertanyaan:
+        "Aku sumber energi terbesar bagi Bumi. Apakah aku?",
+        jawaban: "matahari",
+        hint: "Memberikan cahaya dan panas."
+    },
+
+    {
+        pertanyaan:
+        "Aku kendaraan roda dua yang dikayuh. Apakah aku?",
+        jawaban: "sepeda",
+        hint: "Tidak menggunakan mesin."
+    },
+
+    {
+        pertanyaan:
+        "Aku kendaraan roda dua bermesin. Apakah aku?",
+        jawaban: "motor",
+        hint: "Kendaraan bermotor."
+    },
+
+    {
+        pertanyaan:
+        "Aku kendaraan yang berjalan di rel. Apakah aku?",
+        jawaban: "kereta",
+        hint: "Transportasi darat berrel."
+    },
+
+    {
+        pertanyaan:
+        "Aku tempat pesawat lepas landas dan mendarat. Apakah aku?",
+        jawaban: "bandara",
+        hint: "Tempat transportasi udara."
+    },
+
+    {
+        pertanyaan:
+        "Aku tempat kereta berhenti untuk menaikkan penumpang. Apakah aku?",
+        jawaban: "stasiun",
+        hint: "Tempat transportasi kereta."
+    },
+
+    {
+        pertanyaan:
+        "Aku tempat kapal bersandar. Apakah aku?",
+        jawaban: "pelabuhan",
+        hint: "Tempat kapal datang dan pergi."
+    },
+
+    {
+        pertanyaan:
+        "Aku tempat belajar siswa. Apakah aku?",
+        jawaban: "sekolah",
+        hint: "Tempat pendidikan."
+    },
+
+    {
+        pertanyaan:
+        "Aku orang yang mengajar di sekolah. Apakah aku?",
+        jawaban: "guru",
+        hint: "Membantu siswa belajar."
+    },
+
+    {
+        pertanyaan:
+        "Aku orang yang belajar di sekolah. Apakah aku?",
+        jawaban: "siswa",
+        hint: "Mengikuti kegiatan pembelajaran."
+    },
+
+    {
+        pertanyaan:
+        "Aku tempat menyimpan dan meminjam buku. Apakah aku?",
+        jawaban: "perpustakaan",
+        hint: "Tempat yang penuh buku."
+    },
+
+    {
+        pertanyaan:
+        "Aku digunakan untuk membawa buku ke sekolah. Apakah aku?",
+        jawaban: "tas",
+        hint: "Bisa dipakai di punggung."
+    },
+
+    {
+        pertanyaan:
+        "Aku dipakai di kaki dan biasanya berpasangan. Apakah aku?",
+        jawaban: "sepatu",
+        hint: "Melindungi kaki."
+    },
+
+    {
+        pertanyaan:
+        "Aku dipakai saat hujan agar tubuh tidak basah. Apakah aku?",
+        jawaban: "payung",
+        hint: "Dibuka di atas kepala."
+    },
+
+    {
+        pertanyaan:
+        "Aku tempat air berkumpul sangat luas dan asin. Apakah aku?",
+        jawaban: "laut",
+        hint: "Airnya asin."
+    },
+
+    {
+        pertanyaan:
+        "Aku aliran air yang menuju tempat lebih rendah. Apakah aku?",
+        jawaban: "sungai",
+        hint: "Mengalir dari hulu ke hilir."
+    },
+
+    {
+        pertanyaan:
+        "Aku daratan tinggi yang sangat besar. Apakah aku?",
+        jawaban: "gunung",
+        hint: "Bisa memiliki puncak."
+    },
+
+    {
+        pertanyaan:
+        "Aku daratan yang dikelilingi air. Apakah aku?",
+        jawaban: "pulau",
+        hint: "Bisa berukuran kecil atau besar."
+    },
+
+    {
+        pertanyaan:
+        "Aku tempat banyak pohon tumbuh bersama. Apakah aku?",
+        jawaban: "hutan",
+        hint: "Ekosistem dengan banyak pepohonan."
+    },
+
+    {
+        pertanyaan:
+        "Aku makanan pokok yang sering dimakan di Indonesia. Apakah aku?",
+        jawaban: "nasi",
+        hint: "Dibuat dari beras."
+    },
+
+    {
+        pertanyaan:
+        "Aku dibuat dari tepung dan biasanya berbentuk panjang. Apakah aku?",
+        jawaban: "mi",
+        hint: "Sering dimasak dengan kuah atau bumbu."
+    },
+
+    {
+        pertanyaan:
+        "Aku makanan bundar yang biasanya diberi saus dan keju. Apakah aku?",
+        jawaban: "pizza",
+        hint: "Makanan populer dari Italia."
+    },
+
+    {
+        pertanyaan:
+        "Aku minuman yang dibuat dari daun yang diseduh. Apakah aku?",
+        jawaban: "teh",
+        hint: "Bisa diminum hangat atau dingin."
+    },
+
+    {
+        pertanyaan:
+        "Aku minuman yang sering dibuat dari biji yang disangrai. Apakah aku?",
+        jawaban: "kopi",
+        hint: "Mengandung kafein."
+    },
+
+    {
+        pertanyaan:
+        "Aku makanan dingin dan manis. Apakah aku?",
+        jawaban: "es krim",
+        hint: "Sering punya banyak rasa."
+    },
+
+    {
+        pertanyaan:
+        "Aku buah berwarna kuning dan berbentuk melengkung. Apakah aku?",
+        jawaban: "pisang",
+        hint: "Mudah dikupas."
+    },
+
+    {
+        pertanyaan:
+        "Aku buah besar dengan kulit hijau dan daging merah. Apakah aku?",
+        jawaban: "semangka",
+        hint: "Banyak mengandung air."
+    },
+
+    {
+        pertanyaan:
+        "Aku buah berduri dan punya aroma kuat. Apakah aku?",
+        jawaban: "durian",
+        hint: "Dijuluki raja buah."
+    },
+
+    {
+        pertanyaan:
+        "Aku tempat untuk membeli barang kebutuhan sehari-hari. Apakah aku?",
+        jawaban: "toko",
+        hint: "Tempat jual beli."
+    },
+
+    {
+        pertanyaan:
+        "Aku benda yang digunakan untuk mengunci pintu. Apakah aku?",
+        jawaban: "kunci",
+        hint: "Dimasukkan ke lubang kunci."
+    },
+
+    {
+        pertanyaan:
+        "Aku bagian rumah yang bisa dibuka untuk keluar masuk. Apakah aku?",
+        jawaban: "pintu",
+        hint: "Ada di rumah dan bangunan."
+    },
+
+    {
+        pertanyaan:
+        "Aku bagian rumah yang bisa melihat ke luar. Apakah aku?",
+        jawaban: "jendela",
+        hint: "Biasanya terbuat dari kaca."
+    },
+
+    {
+        pertanyaan:
+        "Aku tempat memasak makanan. Apakah aku?",
+        jawaban: "dapur",
+        hint: "Ada kompor dan peralatan masak."
+    },
+
+    {
+        pertanyaan:
+        "Aku alat yang menghasilkan panas untuk memasak. Apakah aku?",
+        jawaban: "kompor",
+        hint: "Digunakan di dapur."
+    },
+
+    {
+        pertanyaan:
+        "Aku alat untuk menyimpan makanan agar tetap dingin. Apakah aku?",
+        jawaban: "kulkas",
+        hint: "Menyimpan makanan dan minuman."
+    },
+
+    {
+        pertanyaan:
+        "Aku benda empuk yang dipakai untuk kepala saat tidur. Apakah aku?",
+        jawaban: "bantal",
+        hint: "Diletakkan di tempat tidur."
+    },
+
+    {
+        pertanyaan:
+        "Aku berbunyi untuk membangunkanmu pada waktu tertentu. Apakah aku?",
+        jawaban: "alarm",
+        hint: "Bisa ada di ponsel atau jam."
+    },
+
+    {
+        pertanyaan:
+        "Aku muncul di langit malam dan terlihat berkelap-kelip. Apakah aku?",
+        jawaban: "bintang",
+        hint: "Jumlahnya sangat banyak."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah alat yang memotret gambar. Apakah aku?",
+        jawaban: "kamera",
+        hint: "Menghasilkan foto atau video."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah gambar yang dihasilkan kamera. Apakah aku?",
+        jawaban: "foto",
+        hint: "Bisa disimpan secara digital."
+    },
+
+    {
+        pertanyaan:
+        "Aku adalah rekaman bergerak dengan suara. Apakah aku?",
+        jawaban: "video",
+        hint: "Terdiri dari gambar bergerak."
+    },
+
+    {
+        pertanyaan:
+        "Aku tombol yang membuat huruf menjadi kapital sementara. Apakah aku?",
+        jawaban: "shift",
+        hint: "Dipakai bersama tombol lain."
+    },
+
+    {
+        pertanyaan:
+        "Aku tombol untuk membuat tulisan berpindah baris. Apakah aku?",
+        jawaban: "enter",
+        hint: "Sering digunakan untuk mengirim atau membuat baris baru."
+    },
+
+    {
+        pertanyaan:
+        "Aku tombol panjang di keyboard yang digunakan memberi jarak. Apakah aku?",
+        jawaban: "spasi",
+        hint: "Membuat jarak antar kata."
+    },
+
+    {
+        pertanyaan:
+        "Aku simbol yang sering dipakai dalam alamat email. Apakah aku?",
+        jawaban: "at",
+        hint: "Simbolnya @."
+    },
+
+    {
+        pertanyaan:
+        "Aku tempat halaman web dapat dibuka oleh orang lain. Apakah aku?",
+        jawaban: "website",
+        hint: "Berisi halaman yang bisa diakses lewat internet."
+    },
+
+    {
+        pertanyaan:
+        "Aku tempat kode disimpan dan dikerjakan bersama. Apakah aku?",
+        jawaban: "repository",
+        hint: "Tempat proyek kode disimpan."
+    }
+
+/* =========================
+   GAME SYSTEM
+========================= */
+
+let nomor = Number(localStorage.getItem("marlith_nomor")) || 0;
+let skor = Number(localStorage.getItem("marlith_skor")) || 0;
+let streak = Number(localStorage.getItem("marlith_streak")) || 0;
+let terbaik = Number(localStorage.getItem("marlith_terbaik")) || 0;
+
+let hintBonus = Number(localStorage.getItem("marlith_hint")) || 0;
+
+let waktuHint = Number(localStorage.getItem("marlith_waktu")) || 600;
+
+let timer;
+
+
+/* =========================
+   AUDIO
+========================= */
+
+const AudioContext =
+    window.AudioContext || window.webkitAudioContext;
+
+let audioCtx;
+
+function bunyi(frekuensi, durasi, tipe = "sine") {
+
+    try {
+
+        if (!audioCtx) {
+            audioCtx = new AudioContext();
+        }
+
+        const oscillator =
+            audioCtx.createOscillator();
+
+        const gain =
+            audioCtx.createGain();
+
+        oscillator.type = tipe;
+        oscillator.frequency.value = frekuensi;
+
+        gain.gain.setValueAtTime(
+            0.0001,
+            audioCtx.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.08,
+            audioCtx.currentTime + 0.02
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            audioCtx.currentTime + durasi
+        );
+
+        oscillator.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        oscillator.start();
+
+        oscillator.stop(
+            audioCtx.currentTime + durasi
+        );
+
+    } catch (e) {}
+
 }
 
-];
 
-let nomor=0;
-let skor=0;
-let hintTersedia=false;
-let waktuHint=600;
+/* =========================
+   SOUND EFFECT
+========================= */
 
-function mulaiGame(){
+function suaraBenar() {
 
-    document.getElementById("welcome").style.display="none";
-    document.getElementById("game").style.display="block";
+    bunyi(600, .12);
+
+    setTimeout(() => {
+        bunyi(850, .16);
+    }, 100);
+
+}
+
+
+function suaraSalah() {
+
+    bunyi(180, .2, "triangle");
+
+}
+
+
+/* =========================
+   START GAME
+========================= */
+
+function mulaiGame() {
+
+    document.getElementById("welcome")
+        .style.display = "none";
+
+    document.getElementById("finish")
+        .style.display = "none";
+
+    document.getElementById("game")
+        .style.display = "block";
 
     tampilkanSoal();
+
     mulaiTimer();
+
 }
 
-function tampilkanSoal(){
 
-    document.getElementById("nomorSoal").innerText=
-        "SOAL "+(nomor+1);
+/* =========================
+   SHOW QUESTION
+========================= */
 
-    document.getElementById("soal").innerText=
-        soal[nomor].pertanyaan;
+function tampilkanSoal() {
 
-    document.getElementById("jawaban").value="";
+    if (nomor >= soal.length) {
 
-    document.getElementById("hasil").innerText="";
+        selesaiGame();
 
-    document.getElementById("hintText").innerText="";
-}
-
-function cekJawaban(){
-
-    let jawaban=document
-        .getElementById("jawaban")
-        .value
-        .toLowerCase()
-        .trim();
-
-    let hasil=document.getElementById("hasil");
-
-    if(jawaban===""){
-        hasil.innerText="⚠️ Tulis jawaban dulu.";
         return;
     }
 
-    let benar=soal[nomor].jawaban.some(
-        x=>jawaban===x
-    );
+    const data = soal[nomor];
 
-    if(benar){
+    document.getElementById("nomorSoal")
+        .innerText =
+        "SOAL " + (nomor + 1);
 
-        skor+=10;
+    document.getElementById("counter")
+        .innerText =
+        "SOAL " +
+        (nomor + 1) +
+        " / " +
+        soal.length;
 
-        document.getElementById("skor").innerText=skor;
+    const persen =
+        Math.round(
+            (nomor / soal.length) * 100
+        );
 
-        hasil.innerText="✅ BENAR!";
+    document.getElementById("percent")
+        .innerText =
+        persen + "%";
+
+    document.getElementById("bar")
+        .style.width =
+        persen + "%";
+
+    document.getElementById("soal")
+        .innerText =
+        data.pertanyaan;
+
+    document.getElementById("jawaban")
+        .value = "";
+
+    document.getElementById("hasil")
+        .innerText = "";
+
+    document.getElementById("hintText")
+        .innerText = "";
+
+    updateStats();
+
+    document.getElementById("jawaban")
+        .focus();
+
+    simpanProgress();
+
+}
+
+
+/* =========================
+   CHECK ANSWER
+========================= */
+
+function cekJawaban() {
+
+    const input =
+        document.getElementById("jawaban");
+
+    const jawaban =
+        input.value
+            .toLowerCase()
+            .trim();
+
+    const hasil =
+        document.getElementById("hasil");
+
+    if (jawaban === "") {
+
+        hasil.innerText =
+            "Masukkan jawaban dulu.";
+
+        return;
+    }
+
+
+    const benar =
+        soal[nomor].jawaban
+            .toLowerCase()
+            .trim();
+
+
+    if (jawaban === benar) {
+
+        skor += 10;
+
+        streak++;
+
+        if (streak > terbaik) {
+            terbaik = streak;
+        }
+
+        /* Bonus streak */
+        if (streak > 5 && streak % 5 === 1) {
+
+            hintBonus++;
+
+            hasil.innerText =
+                "BENAR. Bonus hint didapat.";
+
+        } else {
+
+            hasil.innerText =
+                "BENAR.";
+        }
+
+        suaraBenar();
 
         nomor++;
 
-        if(nomor<soal.length){
+        simpanProgress();
 
-            setTimeout(tampilkanSoal,700);
+        updateStats();
 
-        }else{
+        setTimeout(() => {
 
-            document.getElementById("soal").innerText=
-                "🎉 SEMUA SOAL SELESAI!";
+            if (nomor >= soal.length) {
 
-            document.getElementById("nomorSoal").innerText=
-                "SELESAI";
+                selesaiGame();
 
-            document.getElementById("jawaban").style.display="none";
+            } else {
 
-            hasil.innerText=
-                "Skor akhir: "+skor;
+                tampilkanSoal();
 
-        }
+            }
 
-    }else{
+        }, 700);
 
-        hasil.innerText="❌ SALAH! Coba lagi.";
+    } else {
+
+        streak = 0;
+
+        hasil.innerText =
+            "SALAH. Coba lagi.";
+
+        suaraSalah();
+
+        updateStats();
+
+        simpanProgress();
+
     }
+
 }
 
-function mulaiTimer(){
 
-    setInterval(()=>{
+/* =========================
+   HINT
+========================= */
 
-        if(hintTersedia)return;
+function gunakanHint() {
 
-        waktuHint--;
+    if (hintBonus <= 0) {
 
-        let menit=Math.floor(waktuHint/60);
+        document.getElementById("hintText")
+            .innerText =
+            "Belum punya hint bonus.";
 
-        let detik=waktuHint%60;
+        return;
+    }
 
-        if(detik<10)detik="0"+detik;
+    hintBonus--;
 
-        document.getElementById("timerHint").innerText=
-            "Hint tersedia dalam "+menit+":"+detik;
+    document.getElementById("hintText")
+        .innerText =
+        "HINT: " +
+        soal[nomor].hint;
 
-        if(waktuHint<=0){
+    updateStats();
 
-            hintTersedia=true;
+    simpanProgress();
 
-            document.getElementById("hintButton").disabled=false;
+}
 
-            document.getElementById("timerHint").innerText=
-                "💡 HINT TERSEDIA!";
+
+/* =========================
+   UPDATE STATS
+========================= */
+
+function updateStats() {
+
+    document.getElementById("skor")
+        .innerText = skor;
+
+    document.getElementById("streak")
+        .innerText = streak;
+
+    document.getElementById("terbaik")
+        .innerText = terbaik;
+
+
+    const hintButton =
+        document.getElementById("hintButton");
+
+    if (hintBonus > 0) {
+
+        hintButton.disabled = false;
+
+        hintButton.innerText =
+            "💡 HINT (" +
+            hintBonus +
+            ")";
+
+    } else {
+
+        hintButton.disabled = true;
+
+        hintButton.innerText =
+            "💡 HINT";
+    }
+
+}
+
+
+/* =========================
+   TIMER HINT
+========================= */
+
+function mulaiTimer() {
+
+    clearInterval(timer);
+
+    timer =
+        setInterval(() => {
+
+            waktuHint--;
+
+            if (waktuHint <= 0) {
+
+                hintBonus++;
+
+                waktuHint = 600;
+
+                document.getElementById("hintText")
+                    .innerText =
+                    "Hint baru tersedia.";
+
+                bunyi(700, .15);
+
+            }
+
+            tampilkanTimer();
+
+            simpanProgress();
+
+        }, 1000);
+
+}
+
+
+function tampilkanTimer() {
+
+    const menit =
+        Math.floor(waktuHint / 60);
+
+    const detik =
+        waktuHint % 60;
+
+    document.getElementById("timerHint")
+        .innerText =
+        "Hint waktu: " +
+        String(menit).padStart(2, "0") +
+        ":" +
+        String(detik).padStart(2, "0");
+
+}
+
+
+/* =========================
+   SAVE CHECKPOINT
+========================= */
+
+function simpanProgress() {
+
+    localStorage.setItem(
+        "marlith_nomor",
+        nomor
+    );
+
+    localStorage.setItem(
+        "marlith_skor",
+        skor
+    );
+
+    localStorage.setItem(
+        "marlith_streak",
+        streak
+    );
+
+    localStorage.setItem(
+        "marlith_terbaik",
+        terbaik
+    );
+
+    localStorage.setItem(
+        "marlith_hint",
+        hintBonus
+    );
+
+    localStorage.setItem(
+        "marlith_waktu",
+        waktuHint
+    );
+
+}
+
+
+/* =========================
+   FINISH
+========================= */
+
+function selesaiGame() {
+
+    clearInterval(timer);
+
+    document.getElementById("game")
+        .style.display = "none";
+
+    document.getElementById("finish")
+        .style.display = "block";
+
+    document.getElementById("skorAkhir")
+        .innerText = skor;
+
+    document.getElementById("bar")
+        .style.width = "100%";
+
+    bunyi(600, .12);
+
+    setTimeout(() => {
+        bunyi(800, .12);
+    }, 120);
+
+    setTimeout(() => {
+        bunyi(1000, .2);
+    }, 240);
+
+}
+
+
+/* =========================
+   PLAY AGAIN
+========================= */
+
+function mainLagi() {
+
+    nomor = 0;
+    skor = 0;
+    streak = 0;
+    hintBonus = 0;
+    waktuHint = 600;
+
+    simpanProgress();
+
+    document.getElementById("finish")
+        .style.display = "none";
+
+    document.getElementById("game")
+        .style.display = "block";
+
+    tampilkanSoal();
+
+    mulaiTimer();
+
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+function resetProgress() {
+
+    const yakin =
+        confirm(
+            "Reset semua progress?"
+        );
+
+    if (!yakin) return;
+
+    nomor = 0;
+    skor = 0;
+    streak = 0;
+    terbaik = 0;
+    hintBonus = 0;
+    waktuHint = 600;
+
+    simpanProgress();
+
+    document.getElementById("finish")
+        .style.display = "none";
+
+    document.getElementById("welcome")
+        .style.display = "none";
+
+    document.getElementById("game")
+        .style.display = "block";
+
+    tampilkanSoal();
+
+}
+
+
+/* =========================
+   MENYERAH
+========================= */
+
+function menyerah() {
+
+    const tai =
+        document.getElementById("tai");
+
+    tai.classList.add("show");
+
+    setTimeout(() => {
+
+        tai.classList.remove("show");
+
+    }, 1800);
+
+}
+
+
+/* =========================
+   THEME
+========================= */
+
+function toggleTheme() {
+
+    document.body.classList.toggle("light");
+
+    const light =
+        document.body.classList.contains("light");
+
+    localStorage.setItem(
+        "marlith_theme",
+        light ? "light" : "dark"
+    );
+
+}
+
+
+/* =========================
+   LOAD THEME
+========================= */
+
+const savedTheme =
+    localStorage.getItem("marlith_theme");
+
+if (savedTheme === "light") {
+
+    document.body.classList.add("light");
+
+}
+
+
+/* =========================
+   ENTER = JAWAB
+========================= */
+
+document.getElementById("jawaban")
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                cekJawaban();
+
+            }
 
         }
+    );
 
-    },1000);
-}
 
-function gunakanHint(){
+/* =========================
+   INITIALIZE
+========================= */
 
-    if(!hintTersedia)return;
+updateStats();
 
-    document.getElementById("hintText").innerText=
-        "💡 Hint: "+soal[nomor].hint;
-
-    hintTersedia=false;
-
-    waktuHint=600;
-
-    document.getElementById("hintButton").disabled=true;
-}
-
-function menyerah(){
-
-    let tai=document.getElementById("tai");
-
-    tai.style.display="block";
-
-    setTimeout(()=>{
-        tai.style.display="none";
-    },2500);
-}
+tampilkanTimer();
 
 </script>
 
